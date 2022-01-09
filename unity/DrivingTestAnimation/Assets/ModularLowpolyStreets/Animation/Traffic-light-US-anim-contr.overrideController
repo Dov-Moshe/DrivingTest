@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Traffic-light-US-anim-contr
+  m_Controller: {fileID: 9100000, guid: d162cf6a3b226e048a35ff3ff752853a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: eb6be869468857c4c9a843e93d4c7a7b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8c28a17e92e60e04ca2062316aaffdf3, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3f0293334fdb4494d8761666b431e563, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5e44cf2238df7b249a2356d37eeef2d5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c6d5129df1da8b446a9e47f187d17753, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5eab88b2d97b117488be3600037cf3b6, type: 2}
