@@ -14,6 +14,8 @@ public struct Wheel
 public class AdvanceCarController : MonoBehaviour
 {
 
+    public static AdvanceCarController Instance;
+
     [SerializeField]
     private float verticalInput;
     [SerializeField]
@@ -29,6 +31,10 @@ public class AdvanceCarController : MonoBehaviour
     [SerializeField]
     private float maxTuen = 30f;
 
+    // Singleton pattern
+    void Awake() {
+        Instance = this;
+    }
 
     void Update()
     {
@@ -80,6 +86,21 @@ public class AdvanceCarController : MonoBehaviour
                 wheel.transform.transform.position = position;
                 wheel.transform.transform.rotation = rotation;
             }
+    }
+
+    public void ResumeCar()
+    {
+
+    }
+
+    public void PauseCar()
+    {
+        
+    }
+
+    public Vector3 GetCarPosition()
+    {
+        return this.transform.transform.position;
     }
 
 
