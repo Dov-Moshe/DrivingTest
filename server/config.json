@@ -1,0 +1,14 @@
+{
+    "connectionString": "mongodb://localhost/node-mongo-signup-verification-api",
+    "secret": "Final Project 2022 Secret Key :)",
+    "emailFrom": "info@node-mongo-signup-verification-api.com",
+    "smtpOptions": {
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "auth": {
+            "user":"elwyn.adams62@ethereal.email",
+            "pass": "QffXqV6wBGwCN56k6B"
+
+        }
+    }
+}
