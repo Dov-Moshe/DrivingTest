@@ -58,3 +58,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 node_modules/
+
+# ignore unity files
+unity/DrivingTestAnimation/.vscode/
+unity/DrivingTestAnimation/Build/
+unity/DrivingTestAnimation/Library/
+unity/DrivingTestAnimation/Logs/
+unity/DrivingTestAnimation/Temp/
