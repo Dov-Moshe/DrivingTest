@@ -13,7 +13,31 @@ module.exports = {
     getAll,
     getById,
     create,
+    updateHighscore,
+    getRules
 };
+
+async function updateHighscore( params ) {
+    //const prevhighscore = await db.Account.findOne({ email });
+    // if (await db.Account.findOne({ email: params.email })) {
+    //     throw 'Email "' + params.email + '" is already registered';
+    // }
+    // if (!await db.Account.findOne({ email: params.email })) {
+    //     throw 'Email "' + params.email + '" is not already registered';
+    // }   
+    // await account.save();
+}
+
+async function getRules( params ) {
+    //const prevhighscore = await db.Account.findOne({ email });
+    // if (await db.Account.findOne({ email: params.email })) {
+    //     throw 'Email "' + params.email + '" is already registered';
+    // }
+    // if (!await db.Account.findOne({ email: params.email })) {
+    //     throw 'Email "' + params.email + '" is not already registered';
+    // }   
+    // await account.save();
+}
 
 async function authenticate({ email, password, ipAddress }) {
     // db record

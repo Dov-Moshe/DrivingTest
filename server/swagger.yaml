@@ -2,6 +2,90 @@ servers:
   - url: http://localhost:4000
     description: Local development server
 paths:
+  /accounts/get-rules:
+    get:
+      summary: rules1
+      description: rules1
+      operationId: GetRules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "jason@example.com"
+                rules:
+                  type: array
+                  example: ["trafic_light"," stop_sign","yield_sign"]
+              required:
+                - email
+                - rules
+      responses:
+        "200":
+          description: Rules get successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Rules get successfully"
+        "400":
+          description: The Rules data is dont get incorrect
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "The Rules data is dont get incorrect"
+  /accounts/update-highscore:
+    post:
+      summary: lala
+      description: lala
+      operationId: updateHighscore
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "jason@example.com"
+                score:
+                  type: integer
+                  example: 1000
+              required:
+                - email
+                - score
+      responses:  
+        "200":
+          description: Score updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Score updated successfully"
+        "400":
+          description: The data is incorrect
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "data is incorrect"
   /accounts/authenticate:
     post:
       summary: Authenticate account credentials and return a JWT token and a cookie with a refresh token

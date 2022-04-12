@@ -10,8 +10,38 @@ const accountService = require('./account.service');
 router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/register', registerSchema, register);
 router.post('/verify-email', verifyEmailSchema, verifyEmail);
+router.post('/update-highscore', updateHighscoreSchema, updateHighscore);
+router.post('/get-rules', getRulesSchema, getRules);
 
 module.exports = router;
+
+function updateHighscore(req, res, next) {
+    accountService.updateHighscore(req.body)
+       .then(() => res.json({ message: 'update highscore successful' }))
+       .catch(next);
+}
+
+function updateHighscoreSchema(req, res, next) {
+   const schema = Joi.object({
+       email: Joi.string().email().required(),
+       score: Joi.number().required()
+   });
+   validateRequest(req, next, schema);
+}
+
+function getRules(req, res, next) {
+   accountService.getAll()
+       .then(rules => res.json(rules))
+       .catch(next);
+}
+
+function getRulesSchema(req, res, next) {
+  const schema = Joi.object({
+      email: Joi.string().email().required(),
+      rules: Joi.array().items(Joi.string())
+  });
+  validateRequest(req, next, schema);
+}
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
@@ -64,7 +94,6 @@ function verifyEmail(req, res, next) {
         .catch(next);
 }
 
-
 function getAll(req, res, next) {
     accountService.getAll()
         .then(accounts => res.json(accounts))
@@ -100,7 +129,6 @@ function create(req, res, next) {
         .then(account => res.json(account))
         .catch(next);
 }
-
 
 function setTokenCookie(res, token) {
     // create cookie with refresh token that expires in 7 days
