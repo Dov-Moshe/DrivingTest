@@ -20,8 +20,13 @@ public class AdvanceCarController : MonoBehaviour
     private float verticalInput;
     [SerializeField]
     private float horizontalInput;
+
+    // brakes
     [SerializeField]
-    private bool breakWheels;
+    private bool brakesWheels;
+    private bool brakesWheelsInput;
+    private Rigidbody rb;
+    private float old_drag;
 
     [SerializeField]
     private List<Wheel> wheels;
@@ -31,9 +36,24 @@ public class AdvanceCarController : MonoBehaviour
     [SerializeField]
     private float maxTuen = 30f;
 
+    public static event Action<bool> NotifyBrakesStatus;
+
     // Singleton pattern
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
     void Awake() {
         Instance = this;
+    }
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        brakesWheels = false;
     }
 
     void Update()
@@ -46,13 +66,14 @@ public class AdvanceCarController : MonoBehaviour
         UpdateMotor();
         UpdateWheels();
         UpdateSteering();
+        UpdateBrakes();
     }
 
     void GetInput()
     {
         verticalInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");
-        breakWheels = Input.GetKey("space");
+        brakesWheelsInput = Input.GetKey("space");
     }
 
     void UpdateMotor()
@@ -88,22 +109,31 @@ public class AdvanceCarController : MonoBehaviour
             }
     }
 
-    public void ResumeCar()
+    void UpdateBrakes()
     {
-
-    }
-
-    public void PauseCar()
-    {
-        
+        if (brakesWheelsInput && rb.drag <= 30)
+        {
+            brakesWheels = brakesWheelsInput;
+            float old_drag = rb.drag;
+            NotifyBrakesStatus?.Invoke(true);
+        }
+        else if (rb.drag > 30 && brakesWheelsInput)
+        {
+            rb.drag = old_drag;
+            brakesWheels = false;
+            brakesWheelsInput = false;
+            NotifyBrakesStatus?.Invoke(false);
+            return;
+        }
+        else if (!brakesWheels || rb.drag > 30)
+        {
+            return;
+        }  
+        rb.drag += 0.5f;
     }
 
     public Vector3 GetCarPosition()
     {
         return this.transform.transform.position;
     }
-
-
-
-
 }
