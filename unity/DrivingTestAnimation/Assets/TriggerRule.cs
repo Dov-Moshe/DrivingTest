@@ -4,69 +4,28 @@ using UnityEngine;
 
 public class TriggerRule : MonoBehaviour
 {
-    protected string ruleType;
-    protected bool ignoreTrigger = false; 
+    [SerializeField]
+    private Rule rule;
 
     // the range of angles that sholud be active to the trigger
     [SerializeField]
     private float activeAngleBegin;
     [SerializeField]
     private float activeAngleEnd;
-    
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    /*void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("hello");
-    }*/
 
     void OnTriggerEnter(Collider other)
     {
-        if(GameManager.Instance.state == GameManager.GameState.Test)
+        float angle = calculateAngle(other);
+        Debug.Log("angle: " + angle);
+
+        string strRule = rule.ToString();
+        Debug.Log("rule: " + strRule);
+
+        if(GameManager.Instance.quesionsMap.ContainsKey(strRule) && isActiveAngle(angle))
         {
-            float angle = calculateAngle(other);
-            Debug.Log("angle: " + angle);
-            if(!ignoreTrigger && isActiveAngle(angle))
-            {
-                OnTest(other);
-            }
+            TriggerTest.Instance.Trigger(strRule);
         }
-
-        //Vector3 closestPoint = other.ClosestPoint(AdvanceCarController.Instance.transform.position);
-                //Vector3 hitObjectPosition3D = AdvanceCarController.Instance.transform.position;
-                //Vector2 hitObjectPosition2D = new Vector2(hitObjectPosition3D.x, hitObjectPosition3D.z);
-                //Vector2 closestPoint2D = new Vector2(closestPoint.x, closestPoint.z);
-                //Vector2 point = closestPoint2D - hitObjectPosition2D;
-
-                //float theta = Mathf.Atan2(point.x, point.y);
-                //float angle = (360 - ((theta * 180) / Mathf.PI)) % 360;
-
-                //Vector3 targetDir = closestPoint - transform.position;
-                //float angle = Vector3.Angle(targetDir, transform.forward);
-
-                //float angle = Vector3.Angle(closestPoint, this.transform.position);
-
-                //Debug.Log("car: " + closestPoint);
-                //Debug.Log("point: " + this.transform.position);
-                
-                //if(closestPoint.x > transform.position.x)
-                //    angle = 360 - angle;
     }
-
-    public virtual void OnTest(Collider other){}
-
-    public virtual void OnLearn(Collider other){}
 
     // calculating the angle between this object and the other collider
     private float calculateAngle(Collider other)
@@ -94,4 +53,20 @@ public class TriggerRule : MonoBehaviour
         return false;
     }
 
+    public enum Rule {
+        traffic_light,
+        stop_sign,
+        yield_sign,
+        no_enter_sign,
+        one_way_sign,
+        crosswalk_sign,
+        bump_sign,
+        square_sign,
+        red_white_sidewalk,
+        red_yellow_sidewalk,
+        speed_limit_sign,
+        no_turn_back_sign,
+        two_ways_sign,
+        no_parking_sign,
+    }
 }
