@@ -52,9 +52,6 @@ public class DrivingInstructionPoint : MonoBehaviour
         } else if(directionPoint == Direction.Continue)
         {
             spriteRenderer.sprite = spriteContinue;
-        } else if(directionPoint == Direction.None)
-        {
-            child.gameObject.SetActive(false);
         }
 
         

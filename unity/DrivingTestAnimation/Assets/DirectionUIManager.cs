@@ -23,24 +23,6 @@ public class DirectionUIManager : MonoBehaviour
     // curent object or direction (static)
     private DrivingInstructionPoint.Direction currentDirection;
 
-    // array of all images for directional
-
-    // 
-
-    // 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-        
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void UpdateDirection(DrivingInstructionPoint.Direction d) {
         switch (d)
