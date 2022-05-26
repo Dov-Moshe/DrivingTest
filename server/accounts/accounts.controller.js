@@ -12,8 +12,26 @@ router.post('/register', registerSchema, register);
 router.post('/verify-email', verifyEmailSchema, verifyEmail);
 router.post('/update-highscore', updateHighscoreSchema, updateHighscore);
 router.post('/get-rules', getRulesSchema, getRules);
+router.post('/update-rules', updateRulesSchema, updateRules);
+router.get('/get-all-scores', getHighscoresSchema, getHighscores);
+
 
 module.exports = router;
+
+function updateRules(req, res, next) {
+    console.log(req.body);
+    accountService.updateRules(req.body)
+       .then(() => res.json({ message: 'update rules successful' }))
+       .catch(next);
+}
+
+function updateRulesSchema(req, res, next) {
+   const schema = Joi.object({
+        email: Joi.string().email().required(),
+        rules: Joi.array().items(Joi.string())
+   });
+   validateRequest(req, next, schema);
+}
 
 function updateHighscore(req, res, next) {
     accountService.updateHighscore(req.body)
@@ -30,15 +48,15 @@ function updateHighscoreSchema(req, res, next) {
 }
 
 function getRules(req, res, next) {
-   accountService.getAll()
-       .then(rules => res.json(rules))
+    const { email} = req.body;
+   accountService.getAccountByEmail(email)
+       .then(account =>  res.json(account.rules))
        .catch(next);
 }
 
 function getRulesSchema(req, res, next) {
   const schema = Joi.object({
       email: Joi.string().email().required(),
-      rules: Joi.array().items(Joi.string())
   });
   validateRequest(req, next, schema);
 }
@@ -99,6 +117,18 @@ function getAll(req, res, next) {
         .then(accounts => res.json(accounts))
         .catch(next);
 }
+
+function getHighscores(req, res, next) {
+    accountService.getAll()
+        .then(accounts => {res.json(accounts.map(a => {return {'email': a.email ,'score': a.score}}))})
+        .catch(next);
+ }
+ 
+ function getHighscoresSchema(req, res, next) {
+   const schema = Joi.object({
+   });
+   validateRequest(req, next, schema);
+ }
 
 function getById(req, res, next) {
     // users can get their own account and admins can get any account

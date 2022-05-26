@@ -2,11 +2,49 @@ servers:
   - url: http://localhost:4000
     description: Local development server
 paths:
-  /accounts/get-rules:
-    get:
-      summary: rules1
-      description: rules1
-      operationId: GetRules
+  /accounts/get-all-scores:
+      get:
+        summary: Scores for highscores table
+        description: return values of highscores
+        operationId: getHighscores
+        security:
+          - bearerAuth: []
+        requestBody:
+          required: false
+        responses:
+          "200":
+            description: Scores get successfully.
+            content:
+              application/json:
+                schema:
+                type: array
+                  properties:
+                    email:
+                      type: string
+                      example: '1'
+                    score:
+                      type: number
+                      example: 1
+                message:
+                  type: string
+                  example: "Scores get successfully"
+          "400":
+            description: The Scores data is dont get incorrect
+            content:
+              application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "The Scores data is dont get incorrect"
+          "401":
+            $ref: "#/components/responses/UnauthorizedError"
+  /accounts/update-rules:
+    post:
+      summary: rules2
+      description: rules2
+      operationId: UpdateRules
       requestBody:
         required: true
         content:
@@ -21,8 +59,45 @@ paths:
                   type: array
                   example: ["trafic_light"," stop_sign","yield_sign"]
               required:
-                - email
                 - rules
+      responses:
+        "200":
+          description: Rules updatd successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Rules updated successfully"
+        "400":
+          description: The Rules data is dont get incorrect
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "The Rules data is dont get incorrect"
+  /accounts/get-rules:
+    post:
+      summary: rules1
+      description: rules1
+      operationId: getRules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "jason@example.com"
+              required:
+                - email
       responses:
         "200":
           description: Rules get successfully.
@@ -31,11 +106,14 @@ paths:
               schema:
                 type: object
                 properties:
+                  rules:
+                    type: array
+                    example: ["trafic_light"," stop_sign","yield_sign"]
                   message:
                     type: string
                     example: "Rules get successfully"
         "400":
-          description: The Rules data is dont get incorrect
+          description: Plaese send an email. Invalid request
           content:
             application/json:
                 schema:
@@ -127,6 +205,15 @@ paths:
                   title:
                     type: string
                     example: "Mr"
+                  score:
+                    type: number
+                    example: 200
+                  rules:
+                    type: array
+                    items:
+                      description: networkIds
+                      type: string
+                      example: ["trafic_light"," stop_sign","yield_sign"]
                   firstName:
                     type: string
                     example: "Jason"

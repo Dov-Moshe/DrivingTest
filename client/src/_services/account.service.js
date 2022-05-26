@@ -21,6 +21,8 @@ export const accountService = {
     create,
     update,
     delete: _delete,
+    updateRules,
+    getScores,
     user: userSubject.asObservable(),
     get userValue() { return userSubject.value }
 };
@@ -33,6 +35,10 @@ function login(email, password) {
             startRefreshTokenTimer();
             return user;
         });
+}
+
+function updateRules(email,rules) {
+    return fetchWrapper.post(`${baseUrl}/update-rules`,{email , rules});
 }
 
 function logout() {
@@ -83,6 +89,10 @@ function getById(id) {
 
 function create(params) {
     return fetchWrapper.post(baseUrl, params);
+}
+
+function getScores() {
+    return fetchWrapper.get(`${baseUrl}/get-all-scores`);
 }
 
 function update(id, params) {

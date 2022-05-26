@@ -9,6 +9,8 @@ const schema = new Schema({
     lastName: { type: String, required: true },
     acceptTerms: Boolean,
     role: { type: String, required: true },
+    score: {type: Number, unique: false},
+    rules: {type: Array, unique: false},
     verificationToken: String,
     verified: Date,
     resetToken: {
@@ -17,7 +19,7 @@ const schema = new Schema({
     },
     passwordReset: Date,
     created: { type: Date, default: Date.now },
-    updated: Date
+    updated: Date,
 });
 
 schema.virtual('isVerified').get(function () {

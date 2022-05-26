@@ -13,7 +13,9 @@ function Register({ history }) {
         email: '',
         password: '',
         confirmPassword: '',
-        acceptTerms: false
+        acceptTerms: false,
+        score: 0,
+        rules:[]
     }
 
     const validationSchema = Yup.object().shape({
@@ -40,7 +42,6 @@ function Register({ history }) {
     function onSubmit(fields, { setStatus, setSubmitting }) {
         setStatus();
         // call async function syncronously
-        debugger;
         accountService.register(fields)
         // on finish
             .then(() => {
@@ -49,7 +50,6 @@ function Register({ history }) {
             })
         // error handler
             .catch(error => {
-                debugger;
                 setSubmitting(false);
                 alertService.error(error);
             });

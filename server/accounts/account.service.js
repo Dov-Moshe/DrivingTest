@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const sendEmail = require('_helpers/send-email');
 const db = require('_helpers/db');
 const Role = require('_helpers/role');
+//const Scores = require('_helpers/scores');
 
 module.exports = {
     authenticate,
@@ -14,35 +15,42 @@ module.exports = {
     getById,
     create,
     updateHighscore,
-    getRules
+    getRules,
+    updateRules,
+    getAccountByEmail,
+   // getAllcores,
+    //scoreDetails
+
 };
 
+async function updateRules( params ) {
+    const account = await db.Account.findOne({ email: params.email });
+    const newRules = params.rules;
+    console.log(newRules);
+    account.rules = newRules;
+    await account.save();
+}
+
 async function updateHighscore( params ) {
-    //const prevhighscore = await db.Account.findOne({ email });
-    // if (await db.Account.findOne({ email: params.email })) {
-    //     throw 'Email "' + params.email + '" is already registered';
-    // }
-    // if (!await db.Account.findOne({ email: params.email })) {
-    //     throw 'Email "' + params.email + '" is not already registered';
-    // }   
-    // await account.save();
+    const account = await db.Account.findOne({ email: params.email });
+    const newScore = params.score;
+    const prevScore = account.score;
+    if(newScore>prevScore){
+        account.score = newScore;
+    }
+    await account.save();
 }
 
 async function getRules( params ) {
-    //const prevhighscore = await db.Account.findOne({ email });
-    // if (await db.Account.findOne({ email: params.email })) {
-    //     throw 'Email "' + params.email + '" is already registered';
-    // }
-    // if (!await db.Account.findOne({ email: params.email })) {
-    //     throw 'Email "' + params.email + '" is not already registered';
-    // }   
-    // await account.save();
+    const account = await db.Account.findOne({ email: params.email });
+    const rules = account.rules;
+    return rules;
 }
 
 async function authenticate({ email, password, ipAddress }) {
     // db record
     const account = await db.Account.findOne({ email });
-
+console.log(account);
     if (!account || !account.isVerified || !bcrypt.compareSync(password, account.passwordHash)) {
         throw 'Email or password is incorrect';
     }
@@ -79,7 +87,8 @@ async function register(params, origin) {
 
     // hash password
     account.passwordHash = hash(params.password);
-
+    account.score = 0;
+    account.rules = [];
     // save account
     await account.save();
 
@@ -114,6 +123,11 @@ async function forgotPassword({ email }, origin) {
     await sendPasswordResetEmail(account, origin);
 }
 
+async function getAllcores() {
+    const accounts = await db.Account.find();
+    return accounts.map(x => scoreDetails(x));
+}
+
 async function getAll() {
     const accounts = await db.Account.find();
     return accounts.map(x => basicDetails(x));
@@ -121,6 +135,11 @@ async function getAll() {
 
 async function getById(id) {
     const account = await getAccount(id);
+    return basicDetails(account);
+}
+
+async function getByEmail(email) {
+    const account = await getAccount(email);
     return basicDetails(account);
 }
 
@@ -135,7 +154,8 @@ async function create(params) {
 
     // hash password
     account.passwordHash = hash(params.password);
-
+    //score
+    account.score = params.score;
     // save account
     await account.save();
 
@@ -143,10 +163,15 @@ async function create(params) {
 }
 
 // helper functions
-
 async function getAccount(id) {
     if (!db.isValidId(id)) throw 'Account not found';
     const account = await db.Account.findById(id);
+    if (!account) throw 'Account not found';
+    return account;
+}
+async function getAccountByEmail(email1) {
+   // if (!db.isValidId(id)) throw 'Account not found';
+    const account = await db.Account.findOne({email:email1});
     if (!account) throw 'Account not found';
     return account;
 }
@@ -174,8 +199,13 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, role, created, updated, isVerified } = account;
-    return { id, title, firstName, lastName, email, role, created, updated, isVerified };
+    const { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules} = account;
+    return { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules};
+}
+
+function scoreDetails(account) {
+    const scoreRet = account.score;
+    return scoreRet;
 }
 
 async function sendVerificationEmail(account, origin) {
