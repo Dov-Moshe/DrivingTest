@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class ContrallerManager : MonoBehaviour
 {
-    public static bool TestIsPause = false;
-
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
-    [SerializeField]
-    private Sprite spritePause;
-    [SerializeField]
-    private Sprite spritePlay;
-
+    private bool TestIsPause = false;
 
     public static ContrallerManager Instance;
 
@@ -21,38 +13,21 @@ public class ContrallerManager : MonoBehaviour
         Instance = this;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void OnResume()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OnClickPlayPause()
-    {
-        if (TestIsPause)
+        if(TestIsPause)
         {
-            Resume();
-        } else {
-            Pause();
+            TestIsPause = false;
+            Time.timeScale = 1f;
         }
     }
 
-    void Resume()
+    public void OnPause()
     {
-        TestIsPause = false;
-        Time.timeScale = 1f;
-    }
-
-    void Pause()
-    {
-        TestIsPause = true;
-        Time.timeScale = 0f;
+        if(!TestIsPause)
+        {
+            TestIsPause = true;
+            Time.timeScale = 0f;
+        }
     }
 }
