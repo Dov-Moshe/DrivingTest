@@ -37,28 +37,25 @@ function Login({ history, location }) {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ errors, touched, isSubmitting }) => (
                 <Form>
-                    <h3 className="card-header">Login</h3>
+                    <h3 className="card-heade text-right">כניסה</h3>
                     <div className="card-body">
-                        <div className="form-group">
-                            <label>Email</label>
+                        <div className="form-group text-right">
+                            <label>מייל</label>
                             <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                             <ErrorMessage name="email" component="div" className="invalid-feedback" />
                         </div>
-                        <div className="form-group">
-                            <label>Password</label>
+                        <div className="form-group text-right">
+                            <label>סיסמה</label>
                             <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                             <ErrorMessage name="password" component="div" className="invalid-feedback" />
                         </div>
-                        <div className="form-row">
+                        <div className="form-row text-right">
                             <div className="form-group col">
                                 <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                     {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                    Login
+                                    כניסה
                                 </button>
-                                <Link to="register" className="btn btn-link">Register</Link>
-                            </div>
-                            <div className="form-group col text-right">
-                                <Link to="forgot-password" className="btn btn-link pr-0">Forgot Password?</Link>
+                                <Link to="register" className="btn btn-link">הרשמה</Link>
                             </div>
                         </div>
                     </div>

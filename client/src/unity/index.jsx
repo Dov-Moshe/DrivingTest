@@ -52,7 +52,7 @@ function UnityComponent() {
             // . updatescores(score,summary)
        
         var _email = accountService.userValue.email; 
-        accountService.updateRules(_email, score, summary)
+        accountService.updateScores(_email, score, summary)
           console.log(score);
           console.log(summary);
         }

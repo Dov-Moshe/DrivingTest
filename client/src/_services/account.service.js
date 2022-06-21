@@ -56,8 +56,8 @@ function updateRules(email,rules) {
     return fetchWrapper.post(`${baseUrl}/update-rules`,{email , rules});
 }
 
-function updateScores(email, score, summary) {
-    return fetchWrapper.post(`${baseUrl}/update-highscore`,{email, score ,summary });
+function updateScores(email, score, scoreDescription) {
+    return fetchWrapper.post(`${baseUrl}/update-highscore`,{email, score ,scoreDescription });
 }
 
 function logout() {

@@ -19,8 +19,12 @@ const NO_ENTER = 'no_enter_sign';
 const ONE_WAY = 'one_way_sign';
 const CROSS_WALK = 'crosswalk_sign';
 const BUMP = 'bump_sign';
-const SQUARE = 'square_sign';
 const RED_WHITE = 'red_white_sidewalk';
+const SQUARE = 'square_sign';
+const SPEED_LIMIT = 'speed_limit_sign';
+const NO_TURN_BACK_SIGN = 'no_turn_back_sign';
+const BLINKER = 'blinker';
+const CONTINUOUS_LINE = 'continuous_line';
 const rootElement = document.getElementById("root");
 
 function clickstartGame() {
@@ -83,34 +87,33 @@ function Settings() {
         !no_enter_sign ? arrayOfToogles.push(NO_ENTER) : arrayOfToogles.splice(arrayOfToogles.indexOf(NO_ENTER), 1);
 
     }
-    const [one_way_sign, setToggleValueOne_way_sign] = useState(userRules.indexOf(ONE_WAY) > -1);
-    const onToggleHandlerOne_way_sign = () => {
-        setToggleValueOne_way_sign(!one_way_sign);
-        !one_way_sign ? arrayOfToogles.push(ONE_WAY) : arrayOfToogles.splice(arrayOfToogles.indexOf(ONE_WAY), 1);
-
-    }
-    const [crosswalk_sign, setToggleValueCrosswalk_sign] = useState(userRules.indexOf(CROSS_WALK) > -1);
-    const onToggleHandlerCrosswalk_sign = () => {
-        setToggleValueCrosswalk_sign(!crosswalk_sign);
-        !crosswalk_sign ? arrayOfToogles.push(CROSS_WALK) : arrayOfToogles.splice(arrayOfToogles.indexOf(CROSS_WALK), 1);
-    }
-    const [bump_sign, setToggleValueBump_sign] = useState(userRules.indexOf(BUMP) > -1);
-    const onToggleHandlerBump_sign = () => {
-        setToggleValueBump_sign(!bump_sign);
-        !bump_sign ? arrayOfToogles.push(BUMP) : arrayOfToogles.splice(arrayOfToogles.indexOf(BUMP), 1);
-
-    }
     const [square_sign, setToggleValueSquare_sign] = useState(userRules.indexOf(SQUARE) > -1);
     const onToggleHandlerSquare_sign = () => {
         setToggleValueSquare_sign(!square_sign);
         !square_sign ? arrayOfToogles.push(SQUARE) : arrayOfToogles.splice(arrayOfToogles.indexOf(SQUARE, 1));
+    }
 
+    const [speed_limit_sign, setToggleValuespeed_limit_sign] = useState(userRules.indexOf(SPEED_LIMIT) > -1);
+    const onToggleHandlerspeed_limit_sign = () => {
+        setToggleValuespeed_limit_sign(!speed_limit_sign);
+        !speed_limit_sign ? arrayOfToogles.push(SPEED_LIMIT) : arrayOfToogles.splice(arrayOfToogles.indexOf(SPEED_LIMIT, 1));
     }
-    const [red_white_sidewalk, setToggleValueRed_white_sidewalk] = useState(userRules.indexOf(RED_WHITE) > -1);
-    const onToggleHandlerRed_white_sidewalk = () => {
-        setToggleValueRed_white_sidewalk(!red_white_sidewalk);
-        !red_white_sidewalk ? arrayOfToogles.push(RED_WHITE) : arrayOfToogles.splice(arrayOfToogles.indexOf(RED_WHITE), 1);
+    const [no_turn_back_sign, setToggleValueno_turn_back_sign] = useState(userRules.indexOf(NO_TURN_BACK_SIGN) > -1);
+    const onToggleHandlerno_turn_back_sign = () => {
+        setToggleValueno_turn_back_sign(!no_turn_back_sign);
+        !no_turn_back_sign ? arrayOfToogles.push(NO_TURN_BACK_SIGN) : arrayOfToogles.splice(arrayOfToogles.indexOf(NO_TURN_BACK_SIGN, 1));
     }
+    const [blinker, setToggleValueBlinker] = useState(userRules.indexOf(BLINKER) > -1);
+    const onToggleHandlerBlinker = () => {
+        setToggleValueBlinker(!blinker);
+        !blinker ? arrayOfToogles.push(BLINKER) : arrayOfToogles.splice(arrayOfToogles.indexOf(BLINKER, 1));
+    }
+    const [continuous_line, setToggleValueContinuous_line] = useState(userRules.indexOf(CONTINUOUS_LINE) > -1);
+    const onToggleHandlerContinuous_line = () => {
+        setToggleValueContinuous_line(!continuous_line);
+        !continuous_line ? arrayOfToogles.push(CONTINUOUS_LINE) : arrayOfToogles.splice(arrayOfToogles.indexOf(CONTINUOUS_LINE), 1);
+    }
+   
     return (
         <div className="container">
             <h3>הגדרות</h3>
@@ -138,32 +141,35 @@ function Settings() {
                     value={no_enter_sign}
                     onToggle={onToggleHandlerNo_enter_sign}
                 /></td></tr>
-
-                <div></div>
-                <tr><th>סימן כביש חד סטרי</th><td><ToggleButton
-                    value={one_way_sign}
-                    onToggle={onToggleHandlerOne_way_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>מעבר חצייה</th><td><ToggleButton
-                    value={crosswalk_sign}
-                    onToggle={onToggleHandlerCrosswalk_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>סימן בולם מהירות</th><td> <ToggleButton
-                    value={bump_sign}
-                    onToggle={onToggleHandlerBump_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>סימן כיכר לפניך</th><td><ToggleButton
+                 <div></div>
+                <tr><th>זכות קדימה בכיכר</th><td><ToggleButton
                     value={square_sign}
                     onToggle={onToggleHandlerSquare_sign}
                 /></td></tr>
                 <div></div>
-                <tr><th>סימן אדום לבן</th><td><ToggleButton
-                    value={red_white_sidewalk}
-                    onToggle={onToggleHandlerRed_white_sidewalk}
+                <tr><th>מהירות נסיעה</th><td><ToggleButton
+                    value={speed_limit_sign}
+                    onToggle={onToggleHandlerspeed_limit_sign}
                 /></td></tr>
+                <div></div>
+                <tr><th>פניית פרסה</th><td><ToggleButton
+                    value={no_turn_back_sign}
+                    onToggle={onToggleHandlerno_turn_back_sign}
+                /></td></tr>
+                <div></div>
+                <tr><th>איתות</th><td> <ToggleButton
+                    value={blinker}
+                    onToggle={onToggleHandlerBlinker}
+                /></td></tr>
+                <div></div>
+                <tr><th>קו הפרדה רצוף</th><td><ToggleButton
+                    value={continuous_line}
+                    onToggle={onToggleHandlerContinuous_line}
+                /></td></tr>
+                <div></div>
+                <tr><th>null</th><td><ToggleButton
+                /></td></tr>
+                <div></div>
             </table>
 
         </div>
