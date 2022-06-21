@@ -7,9 +7,12 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.785D90A9" = "Ambient"
+	"last_search.785D90A9" = ""
 	"OpenInspectorPreview.785D90A9" = "0"
-	"currentGroup.785D90A9" = "all"
+	"currentGroup.785D90A9" = "menu"
+	"last_search.7C5D90A9" = ""
+	"OpenInspectorPreview.7C5D90A9" = "0"
+	"currentGroup.7C5D90A9" = "scene"
 }
 providers = {
 	adb = {
@@ -59,6 +62,7 @@ providers = {
 	}
 }
 recentSearches = [
+	"t"
 	"ambiyAmbient Mode"
 	"a"
 ]
