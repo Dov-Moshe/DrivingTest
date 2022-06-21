@@ -4,6 +4,7 @@ import config from 'config';
 import { fetchWrapper, history } from '@/_helpers';
 
 const userSubject = new BehaviorSubject(null);
+const scoreSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/accounts`;
 //const baseUrl = `localhost:4000/accounts`;
 
@@ -23,9 +24,23 @@ export const accountService = {
     delete: _delete,
     updateRules,
     getScores,
+    getDetails,
+    updateScores,
     user: userSubject.asObservable(),
-    get userValue() { return userSubject.value }
+    get userValue() { return userSubject.value },
+    scores: scoreSubject.asObservable(),
+    get scoreValue() { return scoreSubject.value },
+   // scoreDesc: scoreDescSubject.asObservable(),
+   // get scoreDescValue() { return scoreDescSubject.value }
 };
+
+// todo check if the function return json format
+function getDetails(email) {
+    return fetchWrapper.post(`${baseUrl}/get-rules`, { email })
+        .then(rules => {
+            return rules;
+        });
+}
 
 function login(email, password) {
     return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
@@ -39,6 +54,10 @@ function login(email, password) {
 
 function updateRules(email,rules) {
     return fetchWrapper.post(`${baseUrl}/update-rules`,{email , rules});
+}
+
+function updateScores(email, score, summary) {
+    return fetchWrapper.post(`${baseUrl}/update-highscore`,{email, score ,summary });
 }
 
 function logout() {
@@ -91,8 +110,23 @@ function create(params) {
     return fetchWrapper.post(baseUrl, params);
 }
 
-function getScores() {
-    return fetchWrapper.get(`${baseUrl}/get-all-scores`);
+ function getScores() {
+    return fetchWrapper.get(`${baseUrl}/get-all-scores`).then(scores => {
+        console.log(scores);
+       
+        // publish user to subscribers and start timer to refresh token
+        scoreSubject.next(scores);
+        return scores;
+    });
+}
+function getScoresDesc() {
+    return fetchWrapper.get(`${baseUrl}/get-all-scores`).then(scores => {
+        console.log(scores);
+       
+        // publish user to subscribers and start timer to refresh token
+        scoreSubject.next(scores);
+        return scores;
+    });
 }
 
 function update(id, params) {

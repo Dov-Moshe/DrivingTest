@@ -140,9 +140,13 @@ paths:
                 score:
                   type: integer
                   example: 1000
+                scoreDescription:
+                  type: string
+                  example: 'you did great!'
               required:
                 - email
                 - score
+                - scoreDescription
       responses:  
         "200":
           description: Score updated successfully.

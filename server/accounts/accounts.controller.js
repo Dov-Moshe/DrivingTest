@@ -35,14 +35,15 @@ function updateRulesSchema(req, res, next) {
 
 function updateHighscore(req, res, next) {
     accountService.updateHighscore(req.body)
-       .then(() => res.json({ message: 'update highscore successful' }))
+       .then(() => res.json({ message: 'Highscore updated successfully' }))
        .catch(next);
 }
 
 function updateHighscoreSchema(req, res, next) {
    const schema = Joi.object({
        email: Joi.string().email().required(),
-       score: Joi.number().required()
+       score: Joi.number().required(),
+       scoreDescription: Joi.string().required()
    });
    validateRequest(req, next, schema);
 }
@@ -50,16 +51,24 @@ function updateHighscoreSchema(req, res, next) {
 function getRules(req, res, next) {
     const { email} = req.body;
    accountService.getAccountByEmail(email)
+       .then(account =>  res.json({rules: account.rules, email: account.email}))
+       .catch(next);
+}
+/*
+function getRules(req, res, next) {
+    const { email} = req.body;
+   accountService.getAccountByEmail(email)
        .then(account =>  res.json(account.rules))
        .catch(next);
 }
-
+*/
 function getRulesSchema(req, res, next) {
   const schema = Joi.object({
       email: Joi.string().email().required(),
   });
   validateRequest(req, next, schema);
 }
+
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
@@ -119,7 +128,7 @@ function getAll(req, res, next) {
 }
 
 function getHighscores(req, res, next) {
-    accountService.getAll()
+    accountService.getAllcores()
         .then(accounts => {res.json(accounts.map(a => {return {'email': a.email ,'score': a.score}}))})
         .catch(next);
  }

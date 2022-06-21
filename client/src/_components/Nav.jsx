@@ -18,7 +18,7 @@ function Nav() {
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="navbar-nav">
-                    <NavLink exact to="/" className="nav-item nav-link">Home</NavLink>
+                
                     <a onClick={accountService.logout} className="nav-item nav-link">Logout</a>
                 </div>
             </nav>

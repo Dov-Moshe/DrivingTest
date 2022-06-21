@@ -23,6 +23,7 @@ function Login({ history, location }) {
 
         accountService.login(email, password)
             .then(() => {
+                accountService.getScores();
                 const { from } = location.state || { from: { pathname: "/" } };
                 history.push(from);
             })

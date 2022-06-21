@@ -3,46 +3,35 @@ import * as ToggleButton from 'react-toggle-button';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 import { accountService } from '@/_services';
 import { Settings } from '../Settings/Index';
-//import Unity, { UnityContext } from "react-unity-webgl";
-/*
-const unityContext = new UnityContext({
-    loaderUrl: "/Build/Build/Build.loader.js",
-    dataUrl: "/Build/Build/Build.data",
-    frameworkUrl: "/Build/Build/Build.framework.js",
-    codeUrl: "/Build/Build/Build.wasm",
-    streamingAssetsUrl: "/Build/streamingassets"
-  });
-*/
+import { HighScores } from '../HighScores/Index'
+import { UnityComponent } from '@/unity';
+
+
 const TRAFFIC_LIGHT = 'traffic_light';
 const STOP_SIGN = 'stop_sign';
 const YIELD_SIGN = 'yield_sign';
 const NO_ENTER = 'no_enter_sign';
 const ONE_WAY = 'one_way_sign';
-const CROSS_WALK ='crosswalk_sign';
+const CROSS_WALK = 'crosswalk_sign';
 const BUMP = 'bump_sign';
-const SQUARE ='square_sign';
+const SQUARE = 'square_sign';
 const RED_WHITE = 'red_white_sidewalk';
 //one_way_sign
 const rootElement = document.getElementById("root");
-
-function clickstartGame() {
-    window.open("http://localhost:8111");
-}
 
 function clicksettings() {
     // add redirection
 }
 
 function clickSaveRules(arrayOfToogles, email) {
-    debugger;
     console.log('arrayOfToogles');
     console.log(arrayOfToogles);
     accountService.updateRules(email, arrayOfToogles)
-    // on finish
+        // on finish
         .then(() => {
-            alertService.success('saved successfully');
+            alertService.success('השינויים נשמרו בהצלחה!');
         })
-    // error handler
+        // error handler
         .catch(error => {
             alertService.error(error);
         });
@@ -51,45 +40,83 @@ function clickSaveRules(arrayOfToogles, email) {
 }
 const addOrRemove = (array, item) => {
     const exists = array.includes(item)
-  
+
     if (exists) {
-      return array.filter((c) => { return c !== item })
+        return array.filter((c) => { return c !== item })
     } else {
-      const result = array
-      result.push(item)
-      return result
+        const result = array
+        result.push(item)
+        return result
     }
 }
 let arrayOfToogles = [];
-  function Home() {
-    //const ruleArr = [TRAFFIC_LIGHT, STOP_SIGN];
+function Home() {
+    const style = {
+        backgroundColor: "#F8F8F8",
+        borderTop: "1px solid #E7E7E7",
+        textAlign: "center",
+        padding: "20px",
+        position: "fixed",
+        left: "0",
+        bottom: "0",
+        height: "60px",
+        width: "100%"
+      };
+    const [page, currentPage] = useState('homePage');
     const user = accountService.userValue;
+    const scoresV = accountService.scoreValue;
     const userRules = user.rules;
     arrayOfToogles = user.rules;
     const [isSettings, setSettings] = useState(false);
     const [isHighScoress, setIsHighScores] = useState(false);
 
     return (
-        <div className="p-4">
-            <div className="container">
+        <div className="p-7 text-right" >
+            {page === 'homePage' && (
+                <div className="container">
+                    {!isSettings && !isHighScoress &&  <div class="card"  style={{height: "18erm;"}}><div class="card-body">
+                  <h3 className="card-title"> שלום {user.firstName}!</h3>
+                      
+                      <h4 className="card-text">ברוך הבא למשחק לימוד נהיגה</h4>
+                     
+                  <p class="card-text">המשחק נועד ללימוד ותרגול כללי נהיגה, בו תוכלו לעקוב אחר ההתקדמות ולמרגל נושאים לפי רצונכם</p>
+              
+                  <div className="form-row">
+                        <div className="form-group col">
+                            <button onClick={() => { currentPage('gamePage'); }} class="btn btn-primary">התחל משחק</button>
+                            <button style={{margin : "20px"}} onClick={() => setSettings(!isSettings)} class="btn btn-primary">הגדרות</button>
+                            <button onClick={() => setIsHighScores(!isHighScoress)} class="btn btn-primary">היסטוריית ניקוד</button>
 
-                {!isSettings && !isHighScoress && <div>
-                    <h1>Hi {user.firstName}!</h1>
-                <p>Welcome To driving test!!</p>
-                <button className="btn btn-primary" onClick={clickstartGame}>
-                    Start Game
-                </button>
-                <button className="btn btn-primary" onClick={()=>setSettings(!isSettings)}>
-                    Settings      
-                </button>
-                <button className="btn btn-primary" onClick={()=>setIsHighScores(!isHighScoress)}>
-                    Show High Scores      
-                </button></div>}
-                {isSettings && <Settings/>}
-                {isHighScoress && <Settings/>}
-                <div></div>
+                        </div>
+                    </div>
+               
+                </div>
+              </div>
+                }
+                    {isSettings && <Settings />}
+                    {isHighScoress && <HighScores />}
+                    {!isHighScoress && !isSettings && scoresV && scoresV.length > 0 && <div> <h5 class="card-header">טבלת הציונים המובילים</h5><table class="table table-striped" id="customers"> <thead> <tr>
+      <th scope="col">#</th>
+      <th scope="col">משתמש</th>
+      <th scope="col">ניקוד</th>
+    </tr>
+  </thead> {scoresV.map((item, i) => <tr> <th scope="row">{i+1}</th><td>{item.email}</td><td>{item && item.score}</td></tr>)}</table></div>}
 
-            </div>
+                </div>
+            )}
+            {page === 'gamePage' &&
+                <div>
+                    <UnityComponent />
+                </div>
+            }
+
+                 {(isSettings || isHighScoress || page ==='gamePage') &&   
+                  <footer style={style}>
+                 <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false); currentPage('homePage') }}>
+               חזרה לדף הראשי
+            </button>
+</footer>}
+        
         </div>
     );
 }

@@ -18,9 +18,10 @@ module.exports = {
     getRules,
     updateRules,
     getAccountByEmail,
+    getFiveHighScores,
+    getAllcores,
    // getAllcores,
     //scoreDetails
-
 };
 
 async function updateRules( params ) {
@@ -34,13 +35,16 @@ async function updateRules( params ) {
 async function updateHighscore( params ) {
     const account = await db.Account.findOne({ email: params.email });
     const newScore = params.score;
+    const scoreDescription = params.scoreDescription;
     const prevScore = account.score;
+    account.scoreDescription= [...account.scoreDescription,{'score':params.score,'scoreDescription':params.scoreDescription}];// && account.scoreHistory.push({newScore, scoreDescription});
     if(newScore>prevScore){
         account.score = newScore;
     }
     await account.save();
 }
 
+// todo check if the function return json format
 async function getRules( params ) {
     const account = await db.Account.findOne({ email: params.email });
     const rules = account.rules;
@@ -88,6 +92,7 @@ async function register(params, origin) {
     // hash password
     account.passwordHash = hash(params.password);
     account.score = 0;
+    //account.scoreDescription=;
     account.rules = [];
     // save account
     await account.save();
@@ -123,16 +128,24 @@ async function forgotPassword({ email }, origin) {
     await sendPasswordResetEmail(account, origin);
 }
 
-async function getAllcores() {
-    const accounts = await db.Account.find();
-    return accounts.map(x => scoreDetails(x));
+
+//here my new function
+async function getFiveHighScores(){
+    const scores = db.Account.find().sort({score:-1}).limit(5);
+    debugger;
+    console.log(scores);
+    //const email = getEmailByScore(score);
+    return {scores, item};
 }
 
 async function getAll() {
-    const accounts = await db.Account.find();
+    const accounts = await db.Account.find()
     return accounts.map(x => basicDetails(x));
 }
-
+async function getAllcores() {
+    const accounts = await db.Account.find({ "score": { $exists: true, $ne: 0 } }).sort({score:-1}).limit(5);
+    return accounts.map(x => basicDetails(x));
+}
 async function getById(id) {
     const account = await getAccount(id);
     return basicDetails(account);
@@ -141,6 +154,11 @@ async function getById(id) {
 async function getByEmail(email) {
     const account = await getAccount(email);
     return basicDetails(account);
+}
+//new
+async function getEmailByScore(score) {
+    const account = await getAccount(score);
+    return basicDetails(account).email;
 }
 
 async function create(params) {
@@ -199,8 +217,8 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules} = account;
-    return { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules};
+    const { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules , scoreDescription} = account;
+    return { id, title, firstName, lastName, email, role, created, updated, isVerified, score, rules, scoreDescription};
 }
 
 function scoreDetails(account) {

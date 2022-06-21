@@ -10,6 +10,7 @@ const schema = new Schema({
     acceptTerms: Boolean,
     role: { type: String, required: true },
     score: {type: Number, unique: false},
+    scoreDescription: {type: Array, unique: false},
     rules: {type: Array, unique: false},
     verificationToken: String,
     verified: Date,

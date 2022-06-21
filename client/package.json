@@ -8,6 +8,8 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
+    "eject": "^0.0.4",
+    "eslint": "^8.16.0",
     "formik": "^2.1.4",
     "history": "^4.10.1",
     "prop-types": "^15.7.2",
@@ -15,10 +17,11 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
+    "react-unity-webgl": "^8.8.0",
     "rxjs": "^6.3.3",
     "yup": "^0.28.1"
-},
-"devDependencies": {
+  },
+  "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
@@ -32,7 +35,7 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
-},
+  },
   "author": "",
   "license": "ISC"
 }
