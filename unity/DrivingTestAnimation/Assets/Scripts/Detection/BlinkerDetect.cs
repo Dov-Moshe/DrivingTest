@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BlinkerDetect : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class BlinkerDetect : MonoBehaviour
     private GameObject rightBlinker;
     [SerializeField]
     private GameObject leftBlinker;
+
+    public static event Action<string> BlinkerOn;
 
     Vector3 scaleBlinker;
 
@@ -69,6 +72,7 @@ public class BlinkerDetect : MonoBehaviour
             {
                 isBlinkerRight = true;
                 LeanTween.scale(rightBlinker, scaleBlinker, 0.5f).setEase(LeanTweenType.easeInOutSine).setLoopPingPong();
+                BlinkerOn?.Invoke("right");
             }
         }
         else if (Input.GetKeyDown(KeyCode.Comma)) // left
@@ -89,6 +93,7 @@ public class BlinkerDetect : MonoBehaviour
             {
                 isBlinkerLeft = true;
                 LeanTween.scale(leftBlinker, scaleBlinker, 0.5f).setEase(LeanTweenType.easeInOutSine).setLoopPingPong();
+                BlinkerOn?.Invoke("left");
             }
         }
     }

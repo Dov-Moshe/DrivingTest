@@ -36,16 +36,8 @@ public static class EditorCommunicate
         // get data (json string) from response
         string dataAsJson = webRequest.downloadHandler.text;
         // convert json string to array
-        (string[] rulesFromJson, string emailFromJson) = GetJsonHandler.getJsonTuple<string>(dataAsJson);
-
+        string[] rulesFromJson = GetJsonHandler.getJsonTuple<string>(dataAsJson);
         // Set rules
         GameManager.Instance.RulesList = rulesFromJson;
-        
-        // Set Email
-        GameManager.Instance.Email = emailFromJson;
-
-        Debug.Log(GameManager.Instance.RulesList[0]);
-        //Debug.Log(RulesList[1]);
-        Debug.Log(GameManager.Instance.Email);
     }
 }

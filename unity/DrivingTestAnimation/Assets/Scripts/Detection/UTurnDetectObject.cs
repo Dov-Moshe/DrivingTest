@@ -60,7 +60,7 @@ public class UTurnDetectObject : MonoBehaviour
             else if(CalculationAngle.isActiveAngle(angle, exitBeginAngle, exitEndAngle))
             {
                 Logger.Instance.UpdateRuleMistake("no_turn_back_sign", new Vector3(car.transform.position.x, car.transform.position.y, car.transform.position.z));
-                Debug.Log("Violation of sign 'No Turn Back'");
+                //Debug.Log("Violation of sign 'No Turn Back'");
             }
 
             this.isEnter = false;

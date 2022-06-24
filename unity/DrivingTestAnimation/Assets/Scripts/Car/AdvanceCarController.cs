@@ -70,6 +70,7 @@ public class AdvanceCarController : MonoBehaviour
         UpdateWheels();
         UpdateSteering();
         UpdateBrakes();
+        UpdateCarRotation();
     }
 
     void GetInput()
@@ -84,6 +85,15 @@ public class AdvanceCarController : MonoBehaviour
         foreach (Wheel wheel in wheels)
         {
             wheel.collider.motorTorque = straight * Time.deltaTime * verticalInput;
+        }
+
+    }
+
+    void UpdateCarRotation()
+    {
+        if(Math.Abs(transform.eulerAngles.z) > 50f)
+        {
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
         }
     }
 

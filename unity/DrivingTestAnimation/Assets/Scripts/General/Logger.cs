@@ -9,7 +9,7 @@ public class Logger : MonoBehaviour
 
     // Dictionary<rule, mistakes number>
     public Dictionary<string, RuleObj> rulesMistakes;
-
+    public Dictionary<string, RuleQuestionResults> questionResultsMap = new Dictionary<string, RuleQuestionResults>();
     
 
     // Singleton pattern
@@ -24,14 +24,7 @@ public class Logger : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
         GameManager.LoadingDone += InitLogger;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     void InitLogger(bool loadIsDone)
@@ -39,10 +32,12 @@ public class Logger : MonoBehaviour
         if(GameManager.Instance.RulesList != null) {
             this.loggerIsOn = true;
             this.listCurrentRules = GameManager.Instance.RulesList;
+            int numQuestions = GameManager.Instance.QuesionsPerRule;
             this.rulesMistakes = new Dictionary<string, RuleObj>();
             foreach(string rule in listCurrentRules)
             {
                 this.rulesMistakes.Add(rule, new RuleObj());
+                this.questionResultsMap.Add(rule, new RuleQuestionResults(numQuestions));
             }
         }
     }
@@ -59,10 +54,21 @@ public class Logger : MonoBehaviour
         
     }
 
+    public void UpdateQuestionAnswer(bool isCorrect, string rule)
+    {
+        this.questionResultsMap[rule].IncCount(isCorrect);
+        if(this.questionResultsMap[rule].GetNumQuestionsLeft() > 0)
+        {
+            this.questionResultsMap[rule].UpdateQuestionsLeft();
+        }
+    }
+
     public class RuleObj
     {
         public int mistakes = 0;
         public List<Vector3> locations = new List<Vector3>();
 
     }
+
+    
 }

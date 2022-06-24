@@ -6,80 +6,84 @@ using System;
 public class OutputGenerator : MonoBehaviour
 {
     private Dictionary <string, string> descriptions = new Dictionary<string, string>();
-    private Dictionary <string, string> conjunctions = new Dictionary<string, string>();
+    private Dictionary <string, int> maxMistakes = new Dictionary <string, int>();
     private Dictionary <string, string> templates = new Dictionary<string, string>();
     private int score = 0;
-    private string summary = "";
+    private string summaryReact = "";
+    private string summarydisplay = "";
+    private int correctAnswers = 0;
+    private int bonusPerQuestion = 1;
+
+
+
 
     private void DescriptionsAddingValues(){
-        descriptions.Add("traffic_light_str", "רמזור");
-        descriptions.Add("stop_sign", "תמרור עצור");
+        descriptions.Add("traffic_light", "מעבר רמזור לפי הוראות החוק");
+        descriptions.Add("stop_sign", "קיום הוראת תמרור עצור");
         descriptions.Add("yield_sign", "תמרור האט ותן זכות קדימה");
-        descriptions.Add("no_enter_sign", "תמרור אין כניסה");
+        descriptions.Add("no_enter_sign", "אי כניסה לרחוב המוצב בו תמרור אין כניסה");
         descriptions.Add("crosswalk_sign", "תמרור מעבר חציה");
         descriptions.Add("bump_sign", "תמרור פסי האטה");
-        descriptions.Add("square_sign", "כיכר תנועה");
-        descriptions.Add("speed_limit_sign", "הגבלת מהירות");
-        descriptions.Add("no_turn_back_sign", "תמרור האוסר פניית פרסה");
-        descriptions.Add("blinker", "פנס איתות");
-        descriptions.Add("continuous_line", "קו הפרדה רצוף");
+        descriptions.Add("square_sign", "מתן זכות לרכב הנמצא קודם לכן בכיכר תנועה");
+        descriptions.Add("speed_limit_sign", "הגבלת מהירות הנסיעה");
+        descriptions.Add("no_turn_back_sign", "ציות לתמרור האוסר פניית פרסה");
+        descriptions.Add("blinker", "הדלקת פנס איתות בעת פנייה");
+        descriptions.Add("continuous_line", "שמירה על אי חציית קו הפרדה רצוף");
     }
 
-    private void ConjunctionsAddingValues()
-    {
-        conjunctions.Add("in", "ב");
-        conjunctions.Add("level", "כמות");
-        conjunctions.Add("level1", "נמוכה");
-        conjunctions.Add("level2", "בינונית");
-        conjunctions.Add("level3", "גבוהה");
-        // conjunctions.Add();
-        // conjunctions.Add();
-        // conjunctions.Add();
-        // conjunctions.Add();
-        // conjunctions.Add();
-        // conjunctions.Add();
-        // conjunctions.Add();
+    private void MaxMistakesAddingValues(){
+        maxMistakes.Add("traffic_light", 5);
+        maxMistakes.Add("stop_sign", 5);
+        maxMistakes.Add("yield_sign", 5);
+        maxMistakes.Add("no_enter_sign", 3);
+        maxMistakes.Add("crosswalk_sign", 5);
+        maxMistakes.Add("bump_sign", 5);
+        maxMistakes.Add("square_sign", 3);
+        maxMistakes.Add("speed_limit_sign", 5);
+        maxMistakes.Add("no_turn_back_sign", 3);
+        maxMistakes.Add("blinker", 10);
+        maxMistakes.Add("continuous_line", 5);
     }
 
+    
     private void TemplatesAddingValues()
     {
-        templates.Add("subTitie1", "פירוט הערות וניקוד על החוקים עליהם נבחת:");
+        templates.Add("subTitie1", "פירוט הערות וניקוד על החוקים:");
         templates.Add("subTitie2", "שיפורים אפשריים:");
         templates.Add("numMistakesRule", "כמות הפעמים בהם עברת על חוק זה הינו {0}.");
         templates.Add("scoreReduce1", "עבור כל מעבר על חוק זה הירידה בציון היא {0}, ובסך הכול {1}.");
         templates.Add("scoreReduce2", "עבור חוק זה הפירוט הוא אחת משלוש רמות, והרמה עבור מבחן זה היא {0}, והירידה בציון היא {1}.");
+        templates.Add("subTitieBonus", "בונוס שאלות:");
+        templates.Add("answersBonus", "מספר השאלות שנענו נכון הן {0}, עבור כל שאלה יש בונוס של {1} נקודות, ובסך הכל נוספו {2} נקודות לציון.");
     }
 
-    
-
-    /*public struct RulesStr {
-        static string traffic_light_str = "רמזור";  /// 1
-        static string stop_sign = "תמרור עצור";  /// 2 - v
-        static string yield_sign = "תמרור האט ותן זכות קדימה";  /// 3
-        static string no_enter_sign = "תמרור אין כניסה";  /// 4
-        //static string one_way_sign = "תמרור רחוב חד-סיטרי";  /// 5
-        static string crosswalk_sign = "תמרור מעבר חציה";  /// 6
-        static string bump_sign = "תמרור פסי האטה";  /// 7
-        static string square_sign = "כיכר תנועה";  /// 8
-        //static string red_white_sidewalk = "מדרכה צבועה אדום-לבן";  /// 9
-        //static string red_yellow_sidewalk = "מדרכה צבועה אדום-צהוב";  /// 10
-        static string speed_limit_sign = "הגבלת מהירות";  /// 11 - v
-        static string no_turn_back_sign = "תמרור האוסר פניית פרסה";  /// 12 - v
-        //string two_ways_sign = "תמרור רחוב דו-סיטרי";
-        //string no_parking_sign = "תמרור האוסר על חניה";
-        static string blinker = "פנס איתות"; /// v
-        static string continuous_line = "קו הפרדה רצוף"; /// v
-
-
-    }*/
 
     public void MakeOutput()
     {
         DescriptionsAddingValues();
-        ConjunctionsAddingValues();
+        MaxMistakesAddingValues();
         TemplatesAddingValues();
+        CalculateQuestionBonus();
 
+        /*Debug.Log(String.Format("Num of rules: {0}, Points per rule: {1}.", numOfRules, pointsPerRule));
+        
+        foreach(KeyValuePair<string, Logger.RuleObj> entry in rules)
+        {
+            Debug.Log(String.Format("For rule {0}: reducing points per mistake {1}.", entry.Key, pointsPerRule / maxMistakes[entry.Key]));
+        }*/
+
+        (this.summaryReact, this.score) = OutputSummaryReact();
+        this.summarydisplay = OutputSummaryDisplay();
+        
+    }
+
+    private (string, int) OutputSummaryReact()
+    {
         Dictionary<string, Logger.RuleObj> rules = Logger.Instance.rulesMistakes;
+        int numOfRules = rules.Count;
+        int tempScore = 100;
+        int pointsPerRule = 100 / numOfRules;
+
         string strOut = "";
         foreach(KeyValuePair<string, Logger.RuleObj> entry in rules)
         {
@@ -89,17 +93,92 @@ public class OutputGenerator : MonoBehaviour
                 Debug.Log("Error: this rule is not existing in this current test!");
                 break;
             }
-            strOut += ruleStr + ": " + String.Format(templates["numMistakesRule"], entry.Value.mistakes) + "\n";
-        }
-        Debug.Log(strOut);
-        Debug.Log("פירוט");
 
-        this.score = 100;
-        this.summary = strOut;
+            int mistakes = entry.Value.mistakes;
+            int pointsPerMistakes = pointsPerRule / maxMistakes[entry.Key];
+            bool isMaxMistakes = maxMistakes[entry.Key] <= mistakes ? true : false;
+            int reduce = isMaxMistakes ? pointsPerRule : (mistakes * pointsPerMistakes);
+            tempScore -= reduce;
+
+            strOut += ruleStr + ": " + String.Format(templates["numMistakesRule"], mistakes) 
+                    + " " + String.Format(templates["scoreReduce1"], pointsPerMistakes, reduce);
+            strOut += "\n";
+        }
+
+        // bonus questions
+        strOut += "\n";
+        strOut += templates["subTitieBonus"] + " " 
+                + String.Format(templates["answersBonus"], correctAnswers, bonusPerQuestion, correctAnswers * bonusPerQuestion);
+        tempScore += (this.correctAnswers * this.bonusPerQuestion);
+
+
+        return (strOut, tempScore);
     }
 
-    public (int, string) GetOutput()
+    private string OutputSummaryDisplay()
     {
-        return (this.score, this.summary);
+        Dictionary<string, Logger.RuleObj> rules = Logger.Instance.rulesMistakes;
+        int numOfRules = rules.Count;
+        int tempScore = 100;
+        int pointsPerRule = 100 / numOfRules;
+
+        string strOut = "";
+        strOut += "<size=120%><b>" + templates["subTitie1"] + "</b></size>\n";
+        foreach(KeyValuePair<string, Logger.RuleObj> entry in rules)
+        {
+            string ruleStr;
+            if (!descriptions.TryGetValue(entry.Key, out ruleStr))
+            {
+                Debug.Log("Error: this rule is not existing in this current test!");
+                break;
+            }
+
+            int mistakes = entry.Value.mistakes;
+            int pointsPerMistakes = pointsPerRule / maxMistakes[entry.Key];
+            bool isMaxMistakes = maxMistakes[entry.Key] <= mistakes ? true : false;
+            int reduce = isMaxMistakes ? pointsPerRule : (mistakes * pointsPerMistakes);
+            tempScore -= reduce;
+
+            strOut += "<b>" + ruleStr + ":</b> " + String.Format(templates["numMistakesRule"], IntReverseConvertStr(mistakes)) 
+                    + " " + String.Format(templates["scoreReduce1"], IntReverseConvertStr(pointsPerMistakes), IntReverseConvertStr(reduce));
+            strOut += "\n";
+        }
+
+        // bonus questions
+        strOut += "\n";
+        strOut += "<b>" + templates["subTitieBonus"] + "</b>\n" 
+                + String.Format(templates["answersBonus"], correctAnswers, bonusPerQuestion, correctAnswers * bonusPerQuestion);
+
+        return strOut;
+    }
+
+    public (int, string) GetOutputReact()
+    {
+        return (this.score, this.summaryReact);
+    }
+
+    public (int, string) GetOutputDisplay()
+    {
+        return (this.score, this.summarydisplay);
+    }
+
+    private string IntReverseConvertStr(int num)
+    {
+        char[] arr = num.ToString().ToCharArray();
+        Array.Reverse(arr);
+        return new string(arr);
+    }
+
+    private void CalculateQuestionBonus()
+    {        
+        Dictionary<string, RuleQuestionResults> questionResultsMap =Logger.Instance.questionResultsMap;
+        foreach(KeyValuePair<string, RuleQuestionResults> entry in questionResultsMap)
+        {
+            Debug.Log("=============\nQuestios rule " + entry.Key);
+            Debug.Log("Questions Left: " + entry.Value.GetNumQuestionsLeft().ToString());
+            Debug.Log("Correct answer: " + entry.Value.GetNumCorrectAnswers().ToString() + "\n=============");
+
+            this.correctAnswers += entry.Value.GetNumCorrectAnswers();
+        }
     }
 }

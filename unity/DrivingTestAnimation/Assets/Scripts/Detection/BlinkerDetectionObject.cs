@@ -9,6 +9,8 @@ public class BlinkerDetectionObject : MonoBehaviour
     // the rotation (y) of the car when enetr to the object
     float enterRotCar;
 
+    bool blinkerIsOn = false; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,17 @@ public class BlinkerDetectionObject : MonoBehaviour
         {
             this.enterRotCar = car.transform.eulerAngles.y;
             Debug.Log("blinker enter: " + enterRotCar.ToString());
+
+            if(blinkerDetect.isBlinkerRight || blinkerDetect.isBlinkerLeft)
+            {
+                this.blinkerIsOn = true;
+            }
+            else
+            {
+                BlinkerDetect.BlinkerOn += UpdateBlinkerOn;
+            }
         }
+        
         
     }
 
@@ -37,14 +49,22 @@ public class BlinkerDetectionObject : MonoBehaviour
         {
             float exitRotCar = car.transform.eulerAngles.y;
             Debug.Log("blinker exit: " + exitRotCar.ToString());
-            if((Mathf.Abs(enterRotCar - exitRotCar) % 360) > 60 && !(blinkerDetect.isBlinkerRight || blinkerDetect.isBlinkerLeft))
+            
+            bool firstCheck = Mathf.Abs(enterRotCar - exitRotCar) > 50 ? true : false;
+            bool secondCheck = (360 - Mathf.Abs(enterRotCar - exitRotCar)) > 50 ? true : false;
+            if(firstCheck && secondCheck  && !this.blinkerIsOn)
             {
-                Logger.Instance.UpdateRuleMistake("blinker", new Vector3(car.transform.position.x, car.transform.position.y, car.transform.position.z));
                 Debug.Log("Violation of Blinker");
+                Logger.Instance.UpdateRuleMistake("blinker", new Vector3(car.transform.position.x, car.transform.position.y, car.transform.position.z));
             }
+            this.blinkerIsOn = false;
+            BlinkerDetect.BlinkerOn -= UpdateBlinkerOn;
         }
-        
+    }
 
+    void UpdateBlinkerOn(string side)
+    {
+        this.blinkerIsOn = true;
     }
 
 }

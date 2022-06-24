@@ -16,6 +16,13 @@ public class MapMovement : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private bool isEnter = false;
 
+    private AdvanceCarController car;
+
+    void Start()
+    {
+        this.car = AdvanceCarController.Instance;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -42,7 +49,7 @@ public class MapMovement : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void FocusCar()
     {
-        cam.transform.position = new Vector3(0, cam.transform.position.y, 0);
+        cam.transform.position = new Vector3(car.transform.position.x, cam.transform.position.y, car.transform.position.z);
     }
 
     //Detect if the Cursor starts to pass over the GameObject

@@ -17,13 +17,6 @@ public class GameManager : MonoBehaviour
         set { rulesList = value; }
     }
 
-    private string email;
-    public string Email
-    {
-        get { return email; }
-        set { email = value; }
-    }
-
     private QusetionObj[] questions;
     public QusetionObj[] Questions
     {
@@ -48,12 +41,9 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, Queue<QusetionObj>> quesionsMap = new Dictionary<string, Queue<QusetionObj>>();
     public Dictionary<string, ExpObj> explanationMap = new Dictionary<string, ExpObj>();
 
-    // results
-    public Dictionary<string, RuleResults> resultsMap = new Dictionary<string, RuleResults>();
-
     public static event Action<bool> LoadingDone;
 
-    private bool waitInput = true;
+    ReactCommunicate reactCommunicate;
     
     // Singleton pattern
     private static GameManager _instance;
@@ -79,7 +69,8 @@ public class GameManager : MonoBehaviour
             QuestionHandler handler = gameObject.AddComponent<QuestionHandler>();
             handler.GetAllQuestions();
         #elif UNITY_WEBGL
-            ReactCommunicate.StartReact();
+            reactCommunicate = gameObject.AddComponent<ReactCommunicate>();
+            reactCommunicate.StartReact();
         #endif
         SceneManager.activeSceneChanged += ChangedActiveScene;
         yield return null;
@@ -96,8 +87,8 @@ public class GameManager : MonoBehaviour
     // get from react
     public void GetFromReact(string dataAsJson)
     {
-        ReactCommunicate.GetUserInfoReact(dataAsJson);
-        QuestionHandler handler = new QuestionHandler();
+        reactCommunicate.GetUserInfoReact(dataAsJson);
+        QuestionHandler handler = gameObject.AddComponent<QuestionHandler>();
         handler.GetAllQuestions();
     }
 
@@ -133,64 +124,34 @@ public class GameManager : MonoBehaviour
         
     }
 
-    //public static event Action<bool, string> CorrectAnswerEvent;
-
-    /*public IEnumerator CheckFinish()
-    {
-        /*foreach(KeyValuePair<string, RuleResults> entry in resultsMap)
-        {
-            if(entry.Value.GetNumQuestionsLeft() != 0)
-                yield return null;
-        }
-        yield return StartCoroutine(Finish());;
-    }*/
-
     public IEnumerator Finish()
     {
-        //ResultToSend resultToSend = new ResultToSend(this.email, 50);
-        //string jsonResult = ResultToJsonHelper.ToJson(resultToSend);
-        //yield return StartCoroutine(SetTestResults(jsonResult));
-
         OutputGenerator outputGenerator = gameObject.AddComponent<OutputGenerator>();
         outputGenerator.MakeOutput();
-        (int score, string summary) = outputGenerator.GetOutput();
+        (int score, string summary) = outputGenerator.GetOutputReact();
 
         #if UNITY_EDITOR
            yield return StartCoroutine(CreateRes(score, summary));
         #elif UNITY_WEBGL
-            ReactCommunicate.ResultToReact(score, summary);
+            reactCommunicate.ResultToReact(score, summary);
         #endif
         SceneManager.LoadScene("FinishTest");
         yield return null;
-    }
-
-    public class ResultToSend
-    {
-        string email;
-        int score;
-        string summary;
-        //RuleResults[] ruleResults;
-
-        public ResultToSend(string email, int score, string summary)
-        {
-            this.email = email;
-            this.score = score;
-            this.summary = summary;
-            //this.ruleResults = ruleResults;
-        }
-    }
-
-    public static class ResultToJsonHelper
-    {
-        public static string ToJson(ResultToSend resultToSend)
-        {
-            return JsonUtility.ToJson(resultToSend);
-        }
     }
 
     private IEnumerator CreateRes(int score, string summary)
     {
         Debug.Log("got result");
         yield return null;
+    }
+
+    public void QuitTest()
+    {
+        // foreach (GameObject o in UnityEngine.Object.FindObjectsOfType<GameObject>()) {
+        //         Destroy(o.gameObject);
+        // }
+        #if UNITY_WEBGL
+            Application.Quit();
+        #endif
     }
 }

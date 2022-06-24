@@ -45,7 +45,9 @@ public class Speedometer : MonoBehaviour
 
 
     float privSpeed = 0f;
-    public float[] limitArray = new float[] { 0f, 50f, 60f, 90f };
+
+    [SerializeField]
+    public float[] limitArray = new float[] { 0f, 60f, 80f, 100f };
     //public int len = limitArray.Length;
 
     // Update is called once per frame

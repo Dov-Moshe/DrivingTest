@@ -1,12 +1,12 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public static class ReactCommunicate
+public class ReactCommunicate : MonoBehaviour
 {
     [DllImport("__Internal")]
     private static extern void TestStart();
     
-    public static void StartReact () {
+    public void StartReact () {
         #if UNITY_WEBGL == true && UNITY_EDITOR == false
             TestStart();
         #endif
@@ -15,18 +15,22 @@ public static class ReactCommunicate
     [DllImport("__Internal")]
     private static extern void TestDone(int score, string summary);
     
-    public static void ResultToReact (int score, string summary) {
+    public void ResultToReact (int score, string summary) {
+        Debug.Log("Result to react: ");
+        Debug.Log(score);
+        Debug.Log(summary);
         #if UNITY_WEBGL == true && UNITY_EDITOR == false
             TestDone(score, summary);
         #endif
     }
     
-    public static void GetUserInfoReact (string dataAsJson) {
+    public void GetUserInfoReact (string dataAsJson) {
         // convert json string to array
-        (string[] rulesFromJson, string emailFromJson) = GetJsonHandler.getJsonTuple<string>(dataAsJson);
+        string[] rulesFromJson = GetJsonHandler.getJsonTuple<string>(dataAsJson);
         // Set rules
         GameManager.Instance.RulesList = rulesFromJson;
-        // Set Email
-        GameManager.Instance.Email = emailFromJson;
+
+
+        Debug.Log(dataAsJson);
     }
 }

@@ -5,16 +5,15 @@ using UnityEngine;
 
 public static class GetJsonHandler
     {
-        public static (T[], T) getJsonTuple<T>(string json)
+        public static T[] getJsonTuple<T>(string json)
         {
             Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>> (json);
-            return (wrapper.rules, wrapper.email);
+            return wrapper.rules;
         }
         
         [Serializable]
         private class Wrapper<T>
         {
             public T[] rules;
-            public T email;
         }
     }

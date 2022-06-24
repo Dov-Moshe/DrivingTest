@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,13 +25,21 @@ public class QuestionHandler : MonoBehaviour
         string dataAsJson = www.downloadHandler.text;
         
         (QusetionObj[] qusetionsArray, string exp, string title) = JsonHelperRules.FromJson<QusetionObj, string>(dataAsJson);
+        ShuffleArray(qusetionsArray);
         Queue<QusetionObj> queue = new Queue<QusetionObj>(qusetionsArray);
         ExpObj expObj = new ExpObj(title, exp);
-        RuleResults resultsObj = new RuleResults(GameManager.Instance.QuesionsPerRule);
 
         // adding to the map
         GameManager.Instance.quesionsMap.Add(rule, queue);
         GameManager.Instance.explanationMap.Add(rule, expObj);
-        GameManager.Instance.resultsMap.Add(rule, resultsObj);
+    }
+
+    private void ShuffleArray<T>(T[] arr) {
+        for (int i = 0; i < arr.Length; i++) {
+            int rand = Random.Range(0, arr.Length);
+            T temp = arr[rand];
+            arr[rand] = arr[i];
+            arr[i] = temp;
+        }
     }
 }

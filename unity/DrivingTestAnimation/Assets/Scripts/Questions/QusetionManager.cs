@@ -42,8 +42,6 @@ public class QusetionManager : MonoBehaviour
 
     private string currentRule;
 
-    public static event Action<bool, string> CorrectAnswerEvent;
-
     public static QusetionManager Instance;
 
     void Awake() {
@@ -83,21 +81,21 @@ public class QusetionManager : MonoBehaviour
             char.ToUpper(CurrentQuestion.correct_answer[0]) + CurrentQuestion.correct_answer.Substring(1)).GetValue(CurrentQuestion, null);
         if(CurrentQuestion.correct_answer == answer)
         {
-            Debug.Log("you are correct!");
+            //Debug.Log("you are correct!");
             CorrectAnswerText.text = (string)correct_answer;
             answersBox.SetActive(false);
             correctFrame.SetActive(true);
             isCorrect = true;
         } else
         {
-            Debug.Log("you are worng! the correct answer is " + CurrentQuestion.correct_answer);
+            //Debug.Log("you are worng! the correct answer is " + CurrentQuestion.correct_answer);
             var worng_answer = CurrentQuestion.GetType().GetProperty(char.ToUpper(answer[0]) + answer.Substring(1)).GetValue(CurrentQuestion, null);
             
             answersBox.SetActive(false);
             worngFrame.SetActive(true);
         }
         // first arg is boolean if the answer correct, second arg is the rule
-        CorrectAnswerEvent?.Invoke(isCorrect, this.currentRule);
+        Logger.Instance.UpdateQuestionAnswer(isCorrect, this.currentRule);
     }
 
 

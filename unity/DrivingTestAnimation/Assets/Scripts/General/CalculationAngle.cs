@@ -26,7 +26,7 @@ public static class CalculationAngle
         if((begin <= end) && (begin <= angle && angle <= end))
         {
             return true;
-        } else if ((begin > end) && ((begin <= angle && angle <= 0) || (0 <= angle && angle <= end)))
+        } else if ((begin > end) && ((begin <= angle && angle <= 360) || (0 <= angle && angle <= end)))
         {
             return true;
         }
