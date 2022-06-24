@@ -1,96 +1,24 @@
 {
-    "title": "אין כניסה",
-    "explanation": "",
-    "questions": [
-      {
-        "id": 1,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 2,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 3,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 4,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 5,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 6,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 7,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 8,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 9,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      },
-      {
-        "id": 10,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_"
-      }
-    ]
-  }
+  "title": "אין כניסה",
+  "explanation": "",
+  "questions": [
+    {
+      "id": 1,
+      "question": "כביש חד-סטרי הוא:",
+      "answer_a": "כביש שבו מותרת התנועה בכיוון אחד בלבד.",
+      "answer_b": "דרך בת נתיב אחד בלבד.",
+      "answer_c": "כביש שבכיוון אחד מותר לכל סוגי הרכב לנוע ומנגד – רק לרכב ציבורי.",
+      "answer_d": "דרך ללא מוצא.",
+      "correct_answer": "answer_a"
+    },
+    {
+      "id": 2,
+      "question": "הגדר \"כביש חד-סטרי\":",
+      "answer_a": "כל כביש שתנועת כלי רכב מותרת בו בכיוון אחד בלבד.",
+      "answer_b": "כל כביש שתנועת רכב לא מנועי מותרת בו בכיוון אחד בלבד.",
+      "answer_c": "כל שביל שתנועת רכב מותרת בו בכיוון אחד בלבד.",
+      "answer_d": "כל כביש שתנועת כלי רכב מותרת בו בשני כיוונים.",
+      "correct_answer": "answer_a"
+    }
+  ]
+}
