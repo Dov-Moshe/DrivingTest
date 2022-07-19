@@ -53,14 +53,7 @@ function getRules(req, res, next) {
        .then(account =>  res.json({rules: account.rules, email: account.email}))
        .catch(next);
 }
-/*
-function getRules(req, res, next) {
-    const { email} = req.body;
-   accountService.getAccountByEmail(email)
-       .then(account =>  res.json(account.rules))
-       .catch(next);
-}
-*/
+
 function getRulesSchema(req, res, next) {
   const schema = Joi.object({
       email: Joi.string().email().required(),
@@ -90,7 +83,6 @@ function authenticate(req, res, next) {
 
 function registerSchema(req, res, next) {
     const schema = Joi.object({
-        title: Joi.string().required(),
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().email().required(),
@@ -146,7 +138,6 @@ function getById(req, res, next) {
 
 function createSchema(req, res, next) {
     const schema = Joi.object({
-        title: Joi.string().required(),
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().email().required(),

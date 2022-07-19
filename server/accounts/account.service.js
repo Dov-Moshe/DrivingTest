@@ -202,8 +202,8 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, created, updated, isVerified, score, rules , scoreDescription} = account;
-    return { id, title, firstName, lastName, email, created, updated, isVerified, score, rules, scoreDescription};
+    const { id, firstName, lastName, email, created, updated, isVerified, score, rules , scoreDescription} = account;
+    return { id, firstName, lastName, email, created, updated, isVerified, score, rules, scoreDescription};
 }
 
 function scoreDetails(account) {

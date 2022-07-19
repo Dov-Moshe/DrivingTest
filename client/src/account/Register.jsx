@@ -7,7 +7,6 @@ import { accountService, alertService } from '@/_services';
 
 function Register({ history }) {
     const initialValues = {
-        title: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -19,8 +18,7 @@ function Register({ history }) {
     }
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string()
-            .required('Title is required'),
+
         firstName: Yup.string()
             .required('First Name is required'),
         lastName: Yup.string()
@@ -38,6 +36,7 @@ function Register({ history }) {
 
     // ui-> service (client)-> fetch-wrapper -> fetch ->server side-> response -> 
     function onSubmit(fields, { setStatus, setSubmitting }) {
+        debugger;
         setStatus();
         // call async function syncronously
         accountService.register(fields)

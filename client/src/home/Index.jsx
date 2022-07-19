@@ -87,8 +87,6 @@ function Home() {
                             <button style={{margin : "20px"}} onClick={() => setSettings(!isSettings)} class="btn btn-primary">הגדרות</button>
                             <button onClick={() => setIsHighScores(!isHighScoress)} class="btn btn-primary">היסטוריית ניקוד</button>
                             <button style={{margin : "20px"}} class="btn btn-primary" onClick={accountService.logout} >התנתק </button>
-                           
-
                         </div>
                     </div>
                
