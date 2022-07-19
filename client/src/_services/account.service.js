@@ -1,12 +1,11 @@
 import { BehaviorSubject } from 'rxjs';
-
 import config from 'config';
-import { fetchWrapper, history } from '@/_helpers';
+import { apiCalls } from '../apiCalls';
+import { Redirect } from 'react-router-dom';
 
 const userSubject = new BehaviorSubject(null);
 const scoreSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/accounts`;
-//const baseUrl = `localhost:4000/accounts`;
 
 export const accountService = {
     login,
@@ -21,7 +20,6 @@ export const accountService = {
     getById,
     create,
     update,
-    delete: _delete,
     updateRules,
     getScores,
     getDetails,
@@ -36,14 +34,14 @@ export const accountService = {
 
 // todo check if the function return json format
 function getDetails(email) {
-    return fetchWrapper.post(`${baseUrl}/get-rules`, { email })
+    return apiCalls.post(`${baseUrl}/get-rules`, { email })
         .then(rules => {
             return rules;
         });
 }
 
 function login(email, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
+    return apiCalls.post(`${baseUrl}/authenticate`, { email, password })
         .then(user => {
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
@@ -53,23 +51,24 @@ function login(email, password) {
 }
 
 function updateRules(email,rules) {
-    return fetchWrapper.post(`${baseUrl}/update-rules`,{email , rules});
+    return apiCalls.post(`${baseUrl}/update-rules`,{email , rules});
 }
 
 function updateScores(email, score, scoreDescription) {
-    return fetchWrapper.post(`${baseUrl}/update-highscore`,{email, score ,scoreDescription });
+    return apiCalls.post(`${baseUrl}/update-highscore`,{email, score ,scoreDescription });
 }
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
+    apiCalls.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
     userSubject.next(null);
-    history.push('/account/login');
+    location.replace('/account/login');
+   // history.push('/account/login');
 }
 
 function refreshToken() {
-    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
+    return apiCalls.post(`${baseUrl}/refresh-token`, {})
         .then(user => {
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
@@ -79,39 +78,39 @@ function refreshToken() {
 }
 
 function register(params) {
-    return fetchWrapper.post(`${baseUrl}/register`,params);
+    return apiCalls.post(`${baseUrl}/register`,params);
 }
 
 function verifyEmail(token) {
-    return fetchWrapper.post(`${baseUrl}/verify-email`, { token });
+    return apiCalls.post(`${baseUrl}/verify-email`, { token });
 }
 
 function forgotPassword(email) {
-    return fetchWrapper.post(`${baseUrl}/forgot-password`, { email });
+    return apiCalls.post(`${baseUrl}/forgot-password`, { email });
 }
 
 function validateResetToken(token) {
-    return fetchWrapper.post(`${baseUrl}/validate-reset-token`, { token });
+    return apiCalls.post(`${baseUrl}/validate-reset-token`, { token });
 }
 
 function resetPassword({ token, password, confirmPassword }) {
-    return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
+    return apiCalls.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
 }
 
 function getAll() {
-    return fetchWrapper.get(baseUrl);
+    return apiCalls.get(baseUrl);
 }
 
 function getById(id) {
-    return fetchWrapper.get(`${baseUrl}/${id}`);
+    return apiCalls.get(`${baseUrl}/${id}`);
 }
 
 function create(params) {
-    return fetchWrapper.post(baseUrl, params);
+    return apiCalls.post(baseUrl, params);
 }
 
  function getScores() {
-    return fetchWrapper.get(`${baseUrl}/get-all-scores`).then(scores => {
+    return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
         console.log(scores);
        
         // publish user to subscribers and start timer to refresh token
@@ -120,7 +119,7 @@ function create(params) {
     });
 }
 function getScoresDesc() {
-    return fetchWrapper.get(`${baseUrl}/get-all-scores`).then(scores => {
+    return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
         console.log(scores);
        
         // publish user to subscribers and start timer to refresh token
@@ -130,7 +129,7 @@ function getScoresDesc() {
 }
 
 function update(id, params) {
-    return fetchWrapper.put(`${baseUrl}/${id}`, params)
+    return apiCalls.put(`${baseUrl}/${id}`, params)
         .then(user => {
             // update stored user if the logged in user updated their own record
             if (user.id === userSubject.value.id) {
@@ -141,20 +140,6 @@ function update(id, params) {
             return user;
         });
 }
-
-// prefixed with underscore because 'delete' is a reserved word in javascript
-function _delete(id) {
-    return fetchWrapper.delete(`${baseUrl}/${id}`)
-        .then(x => {
-            // auto logout if the logged in user deleted their own record
-            if (id === userSubject.value.id) {
-                logout();
-            }
-            return x;
-        });
-}
-
-// helper functions
 
 let refreshTokenTimeout;
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { alertService, AlertType } from '@/_services';
-import { history } from '@/_helpers';
 
 const propTypes = {
     id: PropTypes.string,
@@ -41,21 +40,6 @@ function Alert({ id, fade }) {
                     }
                 }
             });
-
-        // clear alerts on location change
-        const historyUnlisten = history.listen(({ pathname }) => {
-            // don't clear if pathname has trailing slash because this will be auto redirected again
-            if (pathname.endsWith('/')) return;
-
-            alertService.clear(id);
-        });
-
-        // clean up function that runs when the component unmounts
-        return () => {
-            // unsubscribe & unlisten to avoid memory leaks
-            subscription.unsubscribe();
-            historyUnlisten();
-        };
     }, []);
 
     function removeAlert(alert) {

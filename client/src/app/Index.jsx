@@ -23,11 +23,6 @@ function App() {
         const subscription2 = accountService.scores.subscribe(y => setScores(y));
         return subscription2.unsubscribe;
     }, []);
-   /* useEffect(() => {
-        const subscription3 = accountService.scoreDescription.subscribe(z => setScoreDesc(z));
-        return subscription3.unsubscribe;
-    }, []);*/
-
     return (
         <div className={'app-container' + (user && ' bg-light')}>
             <Nav />

@@ -13,7 +13,7 @@ function Register({ history }) {
         email: '',
         password: '',
         confirmPassword: '',
-        acceptTerms: false,
+        acceptTerms: true,
         score: 0,
         rules:[]
     }
@@ -34,8 +34,6 @@ function Register({ history }) {
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
             .required('Confirm Password is required'),
-        acceptTerms: Yup.bool()
-            .oneOf([true], 'Accept Terms & Conditions is required')
     });
 
     // ui-> service (client)-> fetch-wrapper -> fetch ->server side-> response -> 
@@ -103,11 +101,6 @@ function Register({ history }) {
                                  (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
                                 <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
                             </div>
-                        </div>
-                        <div className="form-group form-check text-right">
-                            <Field type="checkbox" name="acceptTerms" id="acceptTerms" className={'form-check-input ' + (errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : '')} />
-                            <label htmlFor="acceptTerms" className="form-check-label">אישור התנאים  </label>
-                            <ErrorMessage name="acceptTerms" component="div" className="invalid-feedback" />
                         </div>
             
                         <div className="form-group text-right">
