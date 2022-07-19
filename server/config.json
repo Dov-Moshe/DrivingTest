@@ -1,7 +1,7 @@
 {
-    "connectionString": "mongodb://localhost/node-mongo-signup-verification-api",
+    "connectionString": "mongodb://localhost/DrivingTestDB",
     "secret": "Final Project 2022 Secret Key :)",
-    "emailFrom": "info@node-mongo-signup-verification-api.com",
+    "emailFrom": "us@dummyMail1111.com",
     "smtpOptions": {
         "host": "smtp.ethereal.email",
         "port": 587,

@@ -59,27 +59,17 @@ function Register({ history }) {
                     <h3 className="card-header text-right">הרשמה</h3>
                     <div className="card-body">
                         <div className="form-row">
-                            <div className="form-group col-5 text-right">
+                            <div className="form-group col-7 text-right">
                                 <label>שם פרטי</label>
                                 <Field name="firstName" type="text"
                                  className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                             </div>
-                            <div className="form-group col-5 text-right">
+                            <div className="form-group col-7 text-right">
                                 <label>שם משפחה</label>
                                 <Field name="lastName" type="text" className={'form-control' + 
                                 (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-group col text-right">
-                                <label>סוג</label>
-                                <Field name="title" as="select"  className={'form-control' + 
-                                (errors.title && touched.title ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Student">Student</option>
-                                    <option value="Teacher">Teacher</option>
-                                </Field>
-                                <ErrorMessage name="title" component="div" className="invalid-feedback" />
                             </div>
                         </div>
                         <div className="form-group text-right">

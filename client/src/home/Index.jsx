@@ -86,6 +86,8 @@ function Home() {
                             <button onClick={() => { currentPage('gamePage'); }} class="btn btn-primary">התחל משחק</button>
                             <button style={{margin : "20px"}} onClick={() => setSettings(!isSettings)} class="btn btn-primary">הגדרות</button>
                             <button onClick={() => setIsHighScores(!isHighScoress)} class="btn btn-primary">היסטוריית ניקוד</button>
+                            <button style={{margin : "20px"}} class="btn btn-primary" onClick={accountService.logout} >התנתק </button>
+                           
 
                         </div>
                     </div>
@@ -112,9 +114,11 @@ function Home() {
 
                  {(isSettings || isHighScoress || page ==='gamePage') &&   
                   <footer style={style}>
+                 <button className="btn btn-primary"  style={{margin : "20px"}} onClick={accountService.logout} >התנתק </button>
                  <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false); currentPage('homePage') }}>
                חזרה לדף הראשי
             </button>
+           
 </footer>}
         
         </div>
