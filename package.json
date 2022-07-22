@@ -1,13 +1,12 @@
 {
   "name": "finalproject",
   "version": "1.0.0",
-  "description": "",
+  "description": "project for practicing signs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "react-toggle-button": "^2.2.0"
   }

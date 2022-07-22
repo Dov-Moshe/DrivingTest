@@ -13,6 +13,8 @@ router.post('/update-highscore', updateHighscoreSchema, updateHighscore);
 router.post('/get-rules', getRulesSchema, getRules);
 router.post('/update-rules', updateRulesSchema, updateRules);
 router.get('/get-all-scores', getHighscoresSchema, getHighscores);
+router.post('/get-user-by-email', getAccountByEmail);
+
 
 
 module.exports = router;
@@ -20,45 +22,51 @@ module.exports = router;
 function updateRules(req, res, next) {
     console.log(req.body);
     accountService.updateRules(req.body)
-       .then(() => res.json({ message: 'update rules successful' }))
-       .catch(next);
+        .then(() => res.json({ message: 'update rules successful' }))
+        .catch(next);
 }
 
 function updateRulesSchema(req, res, next) {
-   const schema = Joi.object({
+    const schema = Joi.object({
         email: Joi.string().email().required(),
         rules: Joi.array().items(Joi.string())
-   });
-   validateRequest(req, next, schema);
+    });
+    validateRequest(req, next, schema);
 }
 
 function updateHighscore(req, res, next) {
     accountService.updateHighscore(req.body)
-       .then(() => res.json({ message: 'Highscore updated successfully' }))
-       .catch(next);
+        .then(() => res.json({ message: 'Highscore updated successfully' }))
+        .catch(next);
 }
 
 function updateHighscoreSchema(req, res, next) {
-   const schema = Joi.object({
-       email: Joi.string().email().required(),
-       score: Joi.number().required(),
-       scoreDescription: Joi.string().required()
-   });
-   validateRequest(req, next, schema);
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        score: Joi.number().required(),
+        scoreDescription: Joi.string().required()
+    });
+    validateRequest(req, next, schema);
 }
 
 function getRules(req, res, next) {
-    const { email} = req.body;
-   accountService.getAccountByEmail(email)
-       .then(account =>  res.json({rules: account.rules, email: account.email}))
-       .catch(next);
+    const { email } = req.body;
+    accountService.getAccountByEmail(email)
+        .then(account => res.json({ rules: account.rules, email: account.email }))
+        .catch(next);
+}
+function getAccountByEmail(req, res, next) {
+    const { email } = req.body;
+    accountService.getAccountByEmail(email)
+        .then(account => res.json(account))
+        .catch(next);
 }
 
 function getRulesSchema(req, res, next) {
-  const schema = Joi.object({
-      email: Joi.string().email().required(),
-  });
-  validateRequest(req, next, schema);
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+    });
+    validateRequest(req, next, schema);
 }
 
 
@@ -120,15 +128,15 @@ function getAll(req, res, next) {
 
 function getHighscores(req, res, next) {
     accountService.getAllcores()
-        .then(accounts => {res.json(accounts.map(a => {return {'email': a.email ,'score': a.score}}))})
+        .then(accounts => { res.json(accounts.map(a => { return { 'email': a.email, 'score': a.score } })) })
         .catch(next);
- }
- 
- function getHighscoresSchema(req, res, next) {
-   const schema = Joi.object({
-   });
-   validateRequest(req, next, schema);
- }
+}
+
+function getHighscoresSchema(req, res, next) {
+    const schema = Joi.object({
+    });
+    validateRequest(req, next, schema);
+}
 
 function getById(req, res, next) {
     accountService.getById(req.params.id)
@@ -136,27 +144,10 @@ function getById(req, res, next) {
         .catch(next);
 }
 
-function createSchema(req, res, next) {
-    const schema = Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(6).required(),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-    });
-    validateRequest(req, next, schema);
-}
-
-function create(req, res, next) {
-    accountService.create(req.body)
-        .then(account => res.json(account))
-        .catch(next);
-}
-
 function setTokenCookie(res, token) {
     const cookieOptions = {
         httpOnly: true,
-        expires: new Date(Date.now() + 7*24*60*60*1000)
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     };
     res.cookie('refreshToken', token, cookieOptions);
 }

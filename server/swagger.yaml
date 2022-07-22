@@ -122,6 +122,47 @@ paths:
                     message:
                       type: string
                       example: "The Rules data is dont get incorrect"
+  /accounts/get-user-by-email:
+    post:
+      summary: rules1
+      description: get user details
+      operationId: getAccountByEmail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "jason@example.com"
+              required:
+                - email
+      responses:
+        "200":
+          description: Rules get successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rules:
+                    type: array
+                    example: ["trafic_light"," stop_sign","yield_sign"]
+                  message:
+                    type: string
+                    example: "Rules get successfully"
+        "400":
+          description: Plaese send an email. Invalid request
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "The Rules data is dont get incorrect"
   /accounts/update-highscore:
     post:
       summary: lala
@@ -592,7 +633,7 @@ paths:
     get:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
-      operationId: getAccountById
+      operationId: getAccountByEmail
       security:
         - bearerAuth: []
       responses:

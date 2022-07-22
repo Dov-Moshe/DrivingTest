@@ -28,11 +28,8 @@ export const accountService = {
     get userValue() { return userSubject.value },
     scores: scoreSubject.asObservable(),
     get scoreValue() { return scoreSubject.value },
-   // scoreDesc: scoreDescSubject.asObservable(),
-   // get scoreDescValue() { return scoreDescSubject.value }
 };
 
-// todo check if the function return json format
 function getDetails(email) {
     return apiCalls.post(`${baseUrl}/get-rules`, { email })
         .then(rules => {
@@ -43,34 +40,28 @@ function getDetails(email) {
 function login(email, password) {
     return apiCalls.post(`${baseUrl}/authenticate`, { email, password })
         .then(user => {
-            // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
             return user;
         });
 }
 
-function updateRules(email,rules) {
-    return apiCalls.post(`${baseUrl}/update-rules`,{email , rules});
+function updateRules(email, rules) {
+    return apiCalls.post(`${baseUrl}/update-rules`, { email, rules });
 }
 
 function updateScores(email, score, scoreDescription) {
-    return apiCalls.post(`${baseUrl}/update-highscore`,{email, score ,scoreDescription });
+    return apiCalls.post(`${baseUrl}/update-highscore`, { email, score, scoreDescription }).then(() => getScores()).then(() => getAccountByEmail());
 }
 
 function logout() {
-    // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    apiCalls.post(`${baseUrl}/revoke-token`, {});
-    stopRefreshTokenTimer();
     userSubject.next(null);
     location.replace('/account/login');
-   // history.push('/account/login');
 }
 
 function refreshToken() {
     return apiCalls.post(`${baseUrl}/refresh-token`, {})
         .then(user => {
-            // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
             return user;
@@ -78,7 +69,7 @@ function refreshToken() {
 }
 
 function register(params) {
-    return apiCalls.post(`${baseUrl}/register`,params);
+    return apiCalls.post(`${baseUrl}/register`, params);
 }
 
 function verifyEmail(token) {
@@ -109,10 +100,18 @@ function create(params) {
     return apiCalls.post(baseUrl, params);
 }
 
- function getScores() {
+function getAccountByEmail() {
+    return apiCalls.post(`${baseUrl}/get-user-by-email`, { email: `${accountService.userValue.email}` }).then(user => {
+
+        userSubject.next(user);
+        return user;
+    });
+}
+
+function getScores() {
     return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
         console.log(scores);
-       
+
         // publish user to subscribers and start timer to refresh token
         scoreSubject.next(scores);
         return scores;
@@ -121,7 +120,7 @@ function create(params) {
 function getScoresDesc() {
     return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
         console.log(scores);
-       
+
         // publish user to subscribers and start timer to refresh token
         scoreSubject.next(scores);
         return scores;
