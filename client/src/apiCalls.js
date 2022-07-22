@@ -32,7 +32,7 @@ function put(url, body) {
         headers: { 'Content-Type': 'application/json', ...authHeader(url) },
         body: JSON.stringify(body)
     };
-    return fetch(url, requestOptions).then(handleResponse);    
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function authHeader(url) {
@@ -47,11 +47,9 @@ function authHeader(url) {
 }
 
 function handleResponse(response) {
-    console.log(response);
-    debugger;
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-        
+
         if (!response.ok) {
             if ([401, 403].includes(response.status) && accountService.userValue) {
                 accountService.logout();

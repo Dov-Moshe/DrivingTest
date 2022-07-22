@@ -1,26 +1,21 @@
 ﻿const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
-const validateRequest = require('_middleware/validate-request');
-const authorize = require('_middleware/authorize')
 const accountService = require('./account.service');
 
-// routes
-router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
-router.post('/verify-email', verifyEmailSchema, verifyEmail);
-router.post('/update-highscore', updateHighscoreSchema, updateHighscore);
-router.post('/get-rules', getRulesSchema, getRules);
-router.post('/update-rules', updateRulesSchema, updateRules);
-router.get('/get-all-scores', getHighscoresSchema, getHighscores);
-router.post('/get-user-by-email', getAccountByEmail);
-
-
-
-module.exports = router;
+function isValidate(req, next, schema) {
+    const { error, value } = schema.validate(req.body);
+    if (error != undefined) {
+        next(`${error.details[0].message}`);
+    } else {
+        req.body = value;
+        // call the next hendler 
+        next();
+    }
+}
 
 function updateRules(req, res, next) {
-    console.log(req.body);
+
     accountService.updateRules(req.body)
         .then(() => res.json({ message: 'update rules successful' }))
         .catch(next);
@@ -31,9 +26,11 @@ function updateRulesSchema(req, res, next) {
         email: Joi.string().email().required(),
         rules: Joi.array().items(Joi.string())
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
-
+function throwError(err, req, res, next) {
+    return res.status(500).json({ message: err.message });
+}
 function updateHighscore(req, res, next) {
     accountService.updateHighscore(req.body)
         .then(() => res.json({ message: 'Highscore updated successfully' }))
@@ -46,7 +43,7 @@ function updateHighscoreSchema(req, res, next) {
         score: Joi.number().required(),
         scoreDescription: Joi.string().required()
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
 
 function getRules(req, res, next) {
@@ -66,19 +63,19 @@ function getRulesSchema(req, res, next) {
     const schema = Joi.object({
         email: Joi.string().email().required(),
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
-
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
         email: Joi.string().required(),
         password: Joi.string().required()
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
 
 function authenticate(req, res, next) {
+    //  accountService.isAuthorized(req).then((isAuth) => {
     const { email, password } = req.body;
     const ipAddress = req.ip;
     accountService.authenticate({ email, password, ipAddress })
@@ -87,6 +84,8 @@ function authenticate(req, res, next) {
             res.json(account);
         })
         .catch(next);
+    //} ).catch(next);
+
 }
 
 function registerSchema(req, res, next) {
@@ -98,7 +97,7 @@ function registerSchema(req, res, next) {
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
         acceptTerms: Joi.boolean().valid(true).required()
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
 
 function register(req, res, next) {
@@ -111,7 +110,7 @@ function verifyEmailSchema(req, res, next) {
     const schema = Joi.object({
         token: Joi.string().required()
     });
-    validateRequest(req, next, schema);
+    isValidate(req, next, schema);
 }
 
 function verifyEmail(req, res, next) {
@@ -131,13 +130,6 @@ function getHighscores(req, res, next) {
         .then(accounts => { res.json(accounts.map(a => { return { 'email': a.email, 'score': a.score } })) })
         .catch(next);
 }
-
-function getHighscoresSchema(req, res, next) {
-    const schema = Joi.object({
-    });
-    validateRequest(req, next, schema);
-}
-
 function getById(req, res, next) {
     accountService.getById(req.params.id)
         .then(account => account ? res.json(account) : res.sendStatus(404))
@@ -151,3 +143,14 @@ function setTokenCookie(res, token) {
     };
     res.cookie('refreshToken', token, cookieOptions);
 }
+
+router.post('/authenticate', authenticateSchema, authenticate, throwError);
+router.post('/register', registerSchema, register, throwError);
+router.post('/verify-email', verifyEmailSchema, verifyEmail, throwError);
+router.post('/update-highscore', updateHighscoreSchema, updateHighscore, throwError);
+router.post('/get-rules', getRulesSchema, getRules, throwError);
+router.post('/update-rules', updateRulesSchema, updateRules, throwError);
+router.get('/get-all-scores', getHighscores, throwError);
+router.post('/get-user-by-email', getAccountByEmail, throwError);
+
+module.exports = router;

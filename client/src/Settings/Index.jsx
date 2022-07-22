@@ -33,12 +33,9 @@ function clickstartGame() {
 
 
 function clickSaveRules(arrayOfToogles, email) {
-    console.log('arrayOfToogles');
-    console.log(arrayOfToogles);
     accountService.updateRules(email, arrayOfToogles)
         // on finish
         .then(() => {
-            console.log('hii');
             alertService.success('saved successfully', { keepAfterRouteChange: true });
         })
         // error handler
@@ -113,7 +110,7 @@ function Settings() {
         setToggleValueContinuous_line(!continuous_line);
         !continuous_line ? arrayOfToogles.push(CONTINUOUS_LINE) : arrayOfToogles.splice(arrayOfToogles.indexOf(CONTINUOUS_LINE), 1);
     }
-   
+
     return (
         <div className="container">
             <h3>הגדרות</h3>
@@ -141,7 +138,7 @@ function Settings() {
                     value={no_enter_sign}
                     onToggle={onToggleHandlerNo_enter_sign}
                 /></td></tr>
-                 <div></div>
+                <div></div>
                 <tr><th>זכות קדימה בכיכר</th><td><ToggleButton
                     value={square_sign}
                     onToggle={onToggleHandlerSquare_sign}

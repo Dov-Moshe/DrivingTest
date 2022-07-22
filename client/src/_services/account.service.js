@@ -110,17 +110,6 @@ function getAccountByEmail() {
 
 function getScores() {
     return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
-        console.log(scores);
-
-        // publish user to subscribers and start timer to refresh token
-        scoreSubject.next(scores);
-        return scores;
-    });
-}
-function getScoresDesc() {
-    return apiCalls.get(`${baseUrl}/get-all-scores`).then(scores => {
-        console.log(scores);
-
         // publish user to subscribers and start timer to refresh token
         scoreSubject.next(scores);
         return scores;
@@ -145,13 +134,8 @@ let refreshTokenTimeout;
 function startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
     const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
-
     // set a timeout to refresh the token a minute before it expires
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - Date.now() - (60 * 1000);
     refreshTokenTimeout = setTimeout(refreshToken, timeout);
-}
-
-function stopRefreshTokenTimer() {
-    clearTimeout(refreshTokenTimeout);
 }

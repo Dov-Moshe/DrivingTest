@@ -6,6 +6,7 @@ const sendEmail = require('_helpers/send-email');
 const db = require('_helpers/db');
 
 module.exports = {
+    isAuthorized,
     authenticate,
     register,
     verifyEmail,
@@ -20,28 +21,32 @@ module.exports = {
     getAllcores,
 };
 
-async function updateRules( params ) {
+async function isAuthorized(req) {
+    const account = await db.Account.findById(req.user.id);
+    const refreshTokens = await db.RefreshToken.find({ account: account.id });
+    return !!refreshTokens.find(x => x.token === token);
+}
+async function updateRules(params) {
     const account = await db.Account.findOne({ email: params.email });
     const newRules = params.rules;
-    console.log(newRules);
     account.rules = newRules;
     await account.save();
 }
 
-async function updateHighscore( params ) {
+async function updateHighscore(params) {
     const account = await db.Account.findOne({ email: params.email });
     const newScore = params.score;
     const scoreDescription = params.scoreDescription;
     const prevScore = account.score;
-    account.scoreDescription= [...account.scoreDescription,{'score':params.score,'scoreDescription':params.scoreDescription}];// && account.scoreHistory.push({newScore, scoreDescription});
-    if(newScore>prevScore){
+    account.scoreDescription = [...account.scoreDescription, { 'score': params.score, 'scoreDescription': params.scoreDescription }];// && account.scoreHistory.push({newScore, scoreDescription});
+    if (newScore > prevScore) {
         account.score = newScore;
     }
     await account.save();
 }
 
 // todo check if the function return json format
-async function getRules( params ) {
+async function getRules(params) {
     const account = await db.Account.findOne({ email: params.email });
     const rules = account.rules;
     return rules;
@@ -50,7 +55,6 @@ async function getRules( params ) {
 async function authenticate({ email, password, ipAddress }) {
     // db record
     const account = await db.Account.findOne({ email });
-console.log(account);
     if (!account || !account.isVerified || !bcrypt.compareSync(password, account.passwordHash)) {
         throw 'Email or password is incorrect';
     }
@@ -106,7 +110,7 @@ async function forgotPassword({ email }, origin) {
     // create reset token that expires after 24 hours
     account.resetToken = {
         token: randomTokenString(),
-        expires: new Date(Date.now() + 24*60*60*1000)
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
     };
     await account.save();
 
@@ -116,12 +120,10 @@ async function forgotPassword({ email }, origin) {
 
 
 //here my new function
-async function getFiveHighScores(){
-    const scores = db.Account.find().sort({score:-1}).limit(5);
-    debugger;
-    console.log(scores);
+async function getFiveHighScores() {
+    const scores = db.Account.find().sort({ score: -1 }).limit(5);
     //const email = getEmailByScore(score);
-    return {scores, item};
+    return { scores, item };
 }
 
 async function getAll() {
@@ -129,7 +131,7 @@ async function getAll() {
     return accounts.map(x => basicDetails(x));
 }
 async function getAllcores() {
-    const accounts = await db.Account.find({ "score": { $exists: true, $ne: 0 } }).sort({score:-1}).limit(5);
+    const accounts = await db.Account.find({ "score": { $exists: true, $ne: 0 } }).sort({ score: -1 }).limit(5);
     return accounts.map(x => basicDetails(x));
 }
 async function getById(id) {
@@ -174,7 +176,7 @@ async function getAccount(id) {
     return account;
 }
 async function getAccountByEmail(email1) {
-    const account = await db.Account.findOne({email:email1});
+    const account = await db.Account.findOne({ email: email1 });
     if (!account) throw 'Account not found';
     return account;
 }
@@ -192,7 +194,7 @@ function generateRefreshToken(account, ipAddress) {
     return new db.RefreshToken({
         account: account.id,
         token: randomTokenString(),
-        expires: new Date(Date.now() + 7*24*60*60*1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         createdByIp: ipAddress
     });
 }
@@ -202,8 +204,8 @@ function randomTokenString() {
 }
 
 function basicDetails(account) {
-    const { id, firstName, lastName, email, created, updated, isVerified, score, rules , scoreDescription} = account;
-    return { id, firstName, lastName, email, created, updated, isVerified, score, rules, scoreDescription};
+    const { id, firstName, lastName, email, created, updated, isVerified, score, rules, scoreDescription } = account;
+    return { id, firstName, lastName, email, created, updated, isVerified, score, rules, scoreDescription };
 }
 
 function scoreDetails(account) {

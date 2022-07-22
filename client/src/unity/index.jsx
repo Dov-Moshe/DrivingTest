@@ -8,11 +8,11 @@ const baseUrl = `${config.apiUrl}/accounts`;
 import Unity, { UnityContext } from "react-unity-webgl";
 
 const unityContext = new UnityContext({
-  loaderUrl: "/Build/Build/Build.loader.js",
-  dataUrl: "/Build/Build/Build.data",
-  frameworkUrl: "/Build/Build/Build.framework.js",
-  codeUrl: "/Build/Build/Build.wasm",
-  streamingAssetsUrl: "/Build/streamingassets"
+    loaderUrl: "/Build/Build/Build.loader.js",
+    dataUrl: "/Build/Build/Build.data",
+    frameworkUrl: "/Build/Build/Build.framework.js",
+    codeUrl: "/Build/Build/Build.wasm",
+    streamingAssetsUrl: "/Build/streamingassets"
 });
 /*********/
 
@@ -28,15 +28,13 @@ function UnityComponent() {
             // grt json of rules' test
             var data = accountService.getDetails(_email);
             // sending the json to unity
-            data.then(function(result) {
+            data.then(function (result) {
                 var dataSend = JSON.stringify(result);
-                console.log("dataSend");
-                console.log(dataSend);
                 unityContext.send("GameManager", "GetFromReact", dataSend);
             });
         });
     }, []);
-    
+
     // get fields
     // remove usernames from all the page
     useEffect(function () {
@@ -50,26 +48,24 @@ function UnityComponent() {
     useEffect(() => {
         if (isTestDone) {
             // . updatescores(score,summary)
-       
-        var _email = accountService.userValue.email; 
-        accountService.updateScores(_email, score, summary)
-          console.log(score);
-          console.log(summary);
+
+            var _email = accountService.userValue.email;
+            accountService.updateScores(_email, score, summary);
         }
-      }, [isTestDone]);
+    }, [isTestDone]);
 
     return (
         <div align="center">
-            <Unity 
+            <Unity
                 unityContext={unityContext}
                 style={{
-                width: "50%",
-                height:"500px",
-                justifySelf: "center",
-                alignSelf: "center",
-                border: "2px solid black",
-                margin: "50px",
-                background: "grey"
+                    width: "50%",
+                    height: "500px",
+                    justifySelf: "center",
+                    alignSelf: "center",
+                    border: "2px solid black",
+                    margin: "50px",
+                    background: "grey"
                 }}
             />
             {isTestDone === true}

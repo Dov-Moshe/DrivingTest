@@ -24,8 +24,6 @@ function clicksettings() {
 }
 
 function clickSaveRules(arrayOfToogles, email) {
-    console.log('arrayOfToogles');
-    console.log(arrayOfToogles);
     accountService.updateRules(email, arrayOfToogles)
         // on finish
         .then(() => {

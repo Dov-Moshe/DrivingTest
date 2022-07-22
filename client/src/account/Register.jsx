@@ -14,11 +14,10 @@ function Register({ history }) {
         confirmPassword: '',
         acceptTerms: true,
         score: 0,
-        rules:[]
+        rules: []
     }
 
     const validationSchema = Yup.object().shape({
-
         firstName: Yup.string()
             .required('First Name is required'),
         lastName: Yup.string()
@@ -36,16 +35,15 @@ function Register({ history }) {
 
     // ui-> service (client)-> fetch-wrapper -> fetch ->server side-> response -> 
     function onSubmit(fields, { setStatus, setSubmitting }) {
-        debugger;
         setStatus();
         // call async function syncronously
         accountService.register(fields)
-        // on finish
+            // on finish
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
                 history.push('login');
             })
-        // error handler
+            // error handler
             .catch(error => {
                 setSubmitting(false);
                 alertService.error(error);
@@ -61,37 +59,37 @@ function Register({ history }) {
                             <div className="form-group col-7 text-right">
                                 <label>שם פרטי</label>
                                 <Field name="firstName" type="text"
-                                 className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
+                                    className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col-7 text-right">
                                 <label>שם משפחה</label>
-                                <Field name="lastName" type="text" className={'form-control' + 
-                                (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+                                <Field name="lastName" type="text" className={'form-control' +
+                                    (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                             </div>
                         </div>
                         <div className="form-group text-right">
                             <label>מייל</label>
                             <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ?
-                                 ' is-invalid' : '')} />
+                                ' is-invalid' : '')} />
                             <ErrorMessage name="email" component="div" className="invalid-feedback" />
                         </div>
                         <div className="form-row">
                             <div className="form-group col text-right">
                                 <label>סיסמה</label>
                                 <Field name="password" type="password" className={'form-control' +
-                                 (errors.password && touched.password ? ' is-invalid' : '')} />
+                                    (errors.password && touched.password ? ' is-invalid' : '')} />
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col text-right">
                                 <label>אישור סיסמה</label>
                                 <Field name="confirmPassword" type="password" className={'form-control' +
-                                 (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
+                                    (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
                                 <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
                             </div>
                         </div>
-            
+
                         <div className="form-group text-right">
                             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                 {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
