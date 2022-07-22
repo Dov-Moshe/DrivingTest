@@ -15,6 +15,16 @@ function get(url) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
+function handleResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (response.status == 200) { return data; }
+        else {
+            const error = (data && data.message) || 'error - failed to load resource';
+            return Promise.reject(error);
+        }
+    });
+}
 function post(url, body) {
     const requestOptions = {
         method: 'POST',
@@ -44,20 +54,4 @@ function authHeader(url) {
     } else {
         return {};
     }
-}
-
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-
-        if (!response.ok) {
-            if ([401, 403].includes(response.status) && accountService.userValue) {
-                accountService.logout();
-            }
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
 }
