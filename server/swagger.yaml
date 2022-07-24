@@ -330,15 +330,12 @@ paths:
                 confirmPassword:
                   type: string
                   example: "pass123"
-                acceptTerms:
-                  type: boolean
               required:
                 - firstName
                 - lastName
                 - email
                 - password
                 - confirmPassword
-                - acceptTerms
       responses:
         "200":
           description: The registration request was successful and a verification email has been sent to the specified email address
