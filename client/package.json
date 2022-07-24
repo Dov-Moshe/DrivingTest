@@ -17,7 +17,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-unity-webgl": "^8.8.0",
+    "react-toggle-button": "^2.2.0",
+    "react-unity-webgl": "^9.0.4",
     "rxjs": "^6.3.3",
     "yup": "^0.28.1"
   },

@@ -4,92 +4,65 @@
     "questions": [
       {
         "id": 1,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
+        "question": "מה חייב הנהג לעשות תמיד לפני פניית פרסה שמאלה?",
+        "answer_a": "לוודא שהפנייה מותרת ושאין בה הפרעה לתנועה.",
+        "answer_b": "לוודא שהוא בהילוך הנכון ושפנסי החזית דולקים.",
+        "answer_c": "לאותת בארבעת מחווני הכיוון להתרעה על כוונתו.",
+        "answer_d": "להתמקם בימין הכביש שממנו הוא פונה.",
         "correct_answer": "answer_a"
       },
       {
         "id": 2,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
+        "question": "האם מותר לנוהג ברכב לחצות קו הפרדה רצוף לצורך פניית פרסה?",
+        "answer_a": "אסור.",
+        "answer_b": "מותר, בתנאי שלא תפריע לתנועה.",
+        "answer_c": "מותר, כאשר הצומת שלפניך חסום.",
+        "answer_d": "מותר, כשבכביש יש שני נתיבים או יותר בכל כיוון נסיעה.",
         "correct_answer": "answer_a"
       },
       {
         "id": 3,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
+        "question": "פניית פרסה מותרת:",
+        "answer_a": "אך ורק בצומת שאין בו רמזור.",
+        "answer_b": "כאשר יש קו לבן רצוף.",
+        "answer_c": "מכל נתיב, אלא אם כן יש תמרור האוסר זאת.",
+        "answer_d": "אך ורק בצומת שיש בו רמזור.",
+        "correct_answer": "answer_c"
       },
       {
         "id": 4,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
+        "question": "מאיזה נתיב מותר לפנות פניית פרסה לשמאל?",
+        "answer_a": "מנתיב לפנייה שמאלה או מכל נתיב אחר שאין בו סימון או תמרור האוסר פנייה שכזו.",
+        "answer_b": "מהנתיב הקרוב ביותר אל שטח ההפרדה, המסומן בחץ ישר (קדימה).",
+        "answer_c": "רק מנתיב שבו מסומן חץ ישר (קדימה) על פני הכביש.",
+        "answer_d": "מהנתיב השמאלי בלבד.",
         "correct_answer": "answer_a"
       },
       {
         "id": 5,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
+        "question": "באילו תנאים מותר לפנות פניית פרסה?",
+        "answer_a": "פניית פרסה מותרת רק בכביש בעל שלושה נתיבים לפחות.",
+        "answer_b": "מותר בכל מקום אבל אסור לתמרן בכביש לצורך ביצוע הפנייה.",
+        "answer_c": "כאשר אין הפרעה לתנועה או אין סיכון לעוברי דרך ואין תמרור האוסר פניית פרסה.",
+        "answer_d": "הפנייה מותרת בצומת בלבד.",
+        "correct_answer": "answer_c"
       },
       {
         "id": 6,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
+        "question": "אסור לנהג לפנות פניית פרסה כאשר:",
+        "answer_a": "הוא נוהג ברכב שאורכו יותר משמונה מטרים.",
+        "answer_b": "הוא נוסע בכביש דו-סטרי.",
+        "answer_c": "מוצב תמרור האוסר פנייה שמאלה.",
+        "answer_d": "אין הוא נראה לנהג רכב אחר המתקרב מכל צד שהוא.",
+        "correct_answer": "answer_d"
       },
       {
         "id": 7,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
-      },
-      {
-        "id": 8,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
-      },
-      {
-        "id": 9,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
-        "correct_answer": "answer_a"
-      },
-      {
-        "id": 10,
-        "question": "",
-        "answer_a": "",
-        "answer_b": "",
-        "answer_c": "",
-        "answer_d": "",
+        "question": "מהי \"פניית פרסה\"?",
+        "answer_a": "פנייה שכתוצאה ממנה נהג רכב חוזר על עקבותיו לכיוון שממנו הגיע (מסתובב ונוסע בכיוון הנגדי).",
+        "answer_b": "כל פנייה שאינה בזווית ישרה היא פניית פרסה.",
+        "answer_c": "פנייה שבה נהג הרכב מבצע סיבוב של 360 מעלות.",
+        "answer_d": "רק פנייה שבה נהג הרכב נוסע במעגל תנועה וחוזר לכביש ממנו הגיע.",
         "correct_answer": "answer_a"
       }
     ]
