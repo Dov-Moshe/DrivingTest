@@ -48,7 +48,6 @@ public class Speedometer : MonoBehaviour
 
     [SerializeField]
     public float[] limitArray = new float[] { 0f, 60f, 80f, 100f };
-    //public int len = limitArray.Length;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -62,7 +61,6 @@ public class Speedometer : MonoBehaviour
         {
             if (this.speed > limitArray[i] && limitArray[i] > this.privSpeed)
             {
-                //Debug.Log(speed);
                 LimitPassed?.Invoke(this.speed, limitArray[i]);
             }
         }

@@ -65,13 +65,6 @@ public class OutputGenerator : MonoBehaviour
         TemplatesAddingValues();
         CalculateQuestionBonus();
 
-        /*Debug.Log(String.Format("Num of rules: {0}, Points per rule: {1}.", numOfRules, pointsPerRule));
-        
-        foreach(KeyValuePair<string, Logger.RuleObj> entry in rules)
-        {
-            Debug.Log(String.Format("For rule {0}: reducing points per mistake {1}.", entry.Key, pointsPerRule / maxMistakes[entry.Key]));
-        }*/
-
         (this.summaryReact, this.score) = OutputSummaryReact();
         this.summarydisplay = OutputSummaryDisplay();
         

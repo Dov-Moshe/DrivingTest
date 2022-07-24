@@ -81,14 +81,12 @@ public class QusetionManager : MonoBehaviour
             char.ToUpper(CurrentQuestion.correct_answer[0]) + CurrentQuestion.correct_answer.Substring(1)).GetValue(CurrentQuestion, null);
         if(CurrentQuestion.correct_answer == answer)
         {
-            //Debug.Log("you are correct!");
             CorrectAnswerText.text = (string)correct_answer;
             answersBox.SetActive(false);
             correctFrame.SetActive(true);
             isCorrect = true;
         } else
         {
-            //Debug.Log("you are worng! the correct answer is " + CurrentQuestion.correct_answer);
             var worng_answer = CurrentQuestion.GetType().GetProperty(char.ToUpper(answer[0]) + answer.Substring(1)).GetValue(CurrentQuestion, null);
             
             answersBox.SetActive(false);
@@ -116,7 +114,5 @@ public class QusetionManager : MonoBehaviour
             closeWindow.SetActive(false);
             answersBox.SetActive(true);
         });
-        
-        //StartCoroutine(GameManager.Instance.CheckFinish());
     }
 }

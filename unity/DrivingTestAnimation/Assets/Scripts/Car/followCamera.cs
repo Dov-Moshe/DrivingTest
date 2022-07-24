@@ -6,7 +6,6 @@ public class followCamera : MonoBehaviour
     public float smoothSpeed = 0.125f;
     void update()
     {
-        transform.position = target.position;
-          
+        transform.position = target.position; 
     }
 }

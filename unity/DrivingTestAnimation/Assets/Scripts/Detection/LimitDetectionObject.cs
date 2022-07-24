@@ -26,7 +26,6 @@ public class LimitDetectionObject : MonoBehaviour
             GameObject.ReferenceEquals(other.gameObject, AdvanceCarController.Instance.gameObject))
         {
             CollidersTouching.collidersTouching.Add(coliider);
-            //Debug.Log(gameObject.name + " <Enter>");
         }
     }
 
@@ -39,7 +38,6 @@ public class LimitDetectionObject : MonoBehaviour
         if(CollidersTouching.ColliderExist(coliider) != null && GameObject.ReferenceEquals(other.gameObject, AdvanceCarController.Instance.gameObject))
         {
             CollidersTouching.collidersTouching.RemoveAt(CollidersTouching.ColliderExist(coliider) ?? 0);
-            //Debug.Log(gameObject.name + " <Exit>");
         }
     }
 }

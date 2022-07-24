@@ -27,7 +27,6 @@ public class NoEnterDetect : MonoBehaviour
             if(CalculationAngle.isActiveAngle(angle, beginAngle, endAngle))
             {
                 Logger.Instance.UpdateRuleMistake("no_enter_sign", new Vector3(car.transform.position.x, car.transform.position.y, car.transform.position.z));
-                //Debug.Log("Violation of sign 'No Enter'");
             }
         }
         

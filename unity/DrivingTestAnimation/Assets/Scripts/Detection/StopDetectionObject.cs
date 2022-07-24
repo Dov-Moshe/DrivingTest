@@ -32,7 +32,6 @@ public class StopDetectionObject : MonoBehaviour
 
     void CheckForStop() {
         this.speed = this.speedometer.Speed;
-        //Debug.Log(this.speed);
 
         if (speed < 1f)
         {
@@ -47,7 +46,6 @@ public class StopDetectionObject : MonoBehaviour
         if(GameObject.ReferenceEquals(other.gameObject, car.gameObject))
         {
             float angle = CalculationAngle.calculateAngle(car.GetComponent<Collider>(), this.gameObject.transform);
-            //Debug.Log("stop: " + angle.ToString());
             
             if(CalculationAngle.isActiveAngle(angle, beginAngle, endAngle))
             {

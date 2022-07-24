@@ -34,6 +34,10 @@ public class AdvanceCarController : MonoBehaviour
     [SerializeField]
     private float maxTuen = 30f;
 
+    [SerializeField]
+    private float thresholdRotation = 50f;
+
+
     public static event Action<bool> NotifyBrakesStatus;
 
     // Singleton pattern
@@ -91,14 +95,11 @@ public class AdvanceCarController : MonoBehaviour
 
     void UpdateCarRotation()
     {
-        if(Math.Abs(transform.eulerAngles.z) > 50f)
+        if(Math.Abs(transform.eulerAngles.z) > thresholdRotation)
         {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
         }
     }
-
-    [SerializeField]
-    private float threshold = 20;
 
     void UpdateSteering()
     {
@@ -108,8 +109,6 @@ public class AdvanceCarController : MonoBehaviour
             {
                 float angle = maxTuen * horizontalInput;
                 wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, angle, 0.5f);
-                /*if(Math.Abs(wheel.collider.steerAngle) > threshold)
-                    Debug.Log("steer: " + wheel.collider.steerAngle.ToString());*/
             }
 
         }
@@ -154,28 +153,4 @@ public class AdvanceCarController : MonoBehaviour
     {
         return this.transform.transform.position;
     }
-
-    public void GetCarPosition(Transform tr)
-    {
-        //this.transform = tr.transform;
-    }
-
-   /*public void OnCollisionEnter(Collision other)
-    {
-        Material[] materialsList = other.gameObject.GetComponent<Renderer>().materials;
-        
-        foreach(Material material in materialsList)
-        {
-            print(material.name);
-            if (String.Equals(material.name, "Border (Instance)") || String.Equals(material.name, "Border-red-white (Instance)"))
-            {
-                LeanTween.value(gameObject, Color.white, Color.red, 0.5f).setEaseInOutCubic().setLoopPingPong(3).setOnUpdate( (Color val)=>{ 
-                    material.color = val;
-                }).setOnComplete(() =>{
-                    material.color = Color.white;
-                });
-
-            }
-        }
-    }*/
 }

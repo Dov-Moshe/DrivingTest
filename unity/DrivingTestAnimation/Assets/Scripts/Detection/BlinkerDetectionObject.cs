@@ -20,7 +20,6 @@ public class BlinkerDetectionObject : MonoBehaviour
         this.blinkerDetect = BlinkerDetect.Instance;
     }
 
-
     // OnTriggerEnter is called when the Collider other enters the trigger.
     void OnTriggerEnter(Collider other)
     {
@@ -38,8 +37,6 @@ public class BlinkerDetectionObject : MonoBehaviour
                 BlinkerDetect.BlinkerOn += UpdateBlinkerOn;
             }
         }
-        
-        
     }
 
     // OnTriggerExit is called when the Collider other has stopped touching the trigger.

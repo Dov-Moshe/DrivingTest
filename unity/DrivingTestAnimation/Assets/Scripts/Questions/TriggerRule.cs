@@ -22,14 +22,12 @@ public class TriggerRule : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(rule);
         if(GameObject.ReferenceEquals(other.gameObject, car.gameObject))
         {
             float angle = CalculationAngle.calculateAngle(car.GetComponent<Collider>(), this.gameObject.transform);
             string strRule = rule.ToString();
             if(GameManager.Instance.quesionsMap.ContainsKey(strRule) && CalculationAngle.isActiveAngle(angle, activeAngleBegin, activeAngleEnd))
             {
-                //Debug.Log("before triger test");
                 TriggerTest.Instance.Trigger(strRule);
             }
         }

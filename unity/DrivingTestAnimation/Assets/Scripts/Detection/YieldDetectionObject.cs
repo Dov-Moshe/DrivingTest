@@ -32,22 +32,14 @@ public class YieldDetectionObject : MonoBehaviour
         if(GameObject.ReferenceEquals(other.gameObject, car.gameObject) && this.otherIsInside)
         {
             float angle = CalculationAngle.calculateAngle(car.GetComponent<Collider>(), otherCar.transform);
-            //Debug.Log(angle);
-            // if(this.otherIsInside) {
-            //     float a = CalculationAngle.calculateAngle(car.GetComponent<Collider>(), otherCar.transform);
-            //     Debug.Log("from other: " + a.ToString());
-            // }
 
             if(CalculationAngle.isActiveAngle(angle, beginAngle, endAngle) && this.otherIsInside)
             {
-                //Debug.Log("Other Car Inside");
                 Logger.Instance.UpdateRuleMistake("yield_sign", new Vector3(car.transform.position.x, car.transform.position.y, car.transform.position.z));
-                //Debug.Log("Violation of taking other car right");
             }
         } else {
             otherIsInside = true;
             this.otherCar = other.gameObject;
-            //Debug.Log("Other Car Enter");
         }
     }
 
@@ -62,7 +54,6 @@ public class YieldDetectionObject : MonoBehaviour
         {
             this.otherCar = null;
             otherIsInside = false;
-            //Debug.Log("Other Car Exit");
         }
     }
 }

@@ -51,7 +51,6 @@ public class LimitDetection : MonoBehaviour
     {
         foreach (GameObject x in lookup[limit])
         {
-            //Debug.Log(x.name);
             if (CollidersTouching.IsTouching(x.GetComponent<Collider>()) && limit < speed)
             {
                 Logger.Instance.UpdateRuleMistake("speed_limit_sign", car.transform.position);

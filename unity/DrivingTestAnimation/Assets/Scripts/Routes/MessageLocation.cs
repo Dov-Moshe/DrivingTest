@@ -30,12 +30,6 @@ public class MessageLocation : MonoBehaviour
         messageFinish.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void DisplayMessage(int point, bool isFinish)
     {
         if(isFinish)

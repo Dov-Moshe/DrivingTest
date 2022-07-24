@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour
     {
         routeSelected = route;
         SceneManager.LoadScene("MainTest");
-        //LoadingDone?.Invoke(true);
     }
 
     
@@ -147,9 +146,6 @@ public class GameManager : MonoBehaviour
 
     public void QuitTest()
     {
-        // foreach (GameObject o in UnityEngine.Object.FindObjectsOfType<GameObject>()) {
-        //         Destroy(o.gameObject);
-        // }
         #if UNITY_WEBGL
             Application.Quit();
         #endif

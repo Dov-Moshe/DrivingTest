@@ -47,8 +47,6 @@ public class Follow : MonoBehaviour
             transform.position = path.path.GetPointAtDistance(distance + offset);
             Quaternion rot = path.path.GetRotationAtDistance(distance + offset);
             transform.rotation = rot;
-
-
         }
         
     }
@@ -62,6 +60,4 @@ public class Follow : MonoBehaviour
     {
         isPause = false;
     }
-
-
 }
