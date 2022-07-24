@@ -4,7 +4,7 @@ import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 import { accountService } from '@/_services';
 import { Settings } from '../Settings/Index';
 import { HighScores } from '../HighScores/Index'
-import { UnityComponent } from '@/unity';
+import { UnityComponent, QuitUnity } from '@/unity';
 
 
 const TRAFFIC_LIGHT = 'traffic_light';
@@ -111,7 +111,15 @@ function Home() {
             {(isSettings || isHighScoress || page === 'gamePage') &&
                 <footer style={style}>
                     <button className="btn btn-primary" style={{ margin: "20px" }} onClick={accountService.logout} >התנתק </button>
-                    <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false); currentPage('homePage') }}>
+                    <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false);
+                    if(page === 'gamePage'){
+                            QuitUnity();
+                            setTimeout(function() {
+                                currentPage('homePage')
+                            }, (2000));
+                        } else{
+                            currentPage('homePage')
+                        }}}>
                         חזרה לדף הראשי
                     </button>
 
