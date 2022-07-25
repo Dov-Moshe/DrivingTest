@@ -39,7 +39,7 @@ function Register({ history }) {
         accountService.register(fields)
             // on finish
             .then(() => {
-                alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
+                alertService.success('הרישום בוצע בהצלחה, אנא בדוק את תיבת המייל לאימות', { keepAfterRouteChange: true });
                 history.push('login');
             })
             // error handler

@@ -4,7 +4,6 @@ import { accountService } from '@/_services';
 export const apiCalls = {
     get,
     post,
-    put,
 }
 //export default apiCalls; 
 function get(url) {
@@ -31,15 +30,6 @@ function post(url, body) {
         headers: { 'Content-Type': 'application/json', ...authHeader(url) },
         //for cookies
         credentials: 'include',
-        body: JSON.stringify(body)
-    };
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function put(url, body) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
         body: JSON.stringify(body)
     };
     return fetch(url, requestOptions).then(handleResponse);
