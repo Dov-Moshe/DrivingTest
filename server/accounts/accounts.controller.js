@@ -4,7 +4,7 @@ const Joi = require('joi');
 const accountService = require('./account.service');
 
 function isValidate(req, next, schema) {
-    const { error, value } = schema.validate(req.body);
+    const { error, value } = schema.validate(req.body, { allowUnknown: true, });
     if (error != undefined) {
         next(`${error.details[0].message}`);
     } else {
@@ -95,7 +95,6 @@ function registerSchema(req, res, next) {
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-        acceptTerms: Joi.boolean().valid(true).required()
     });
     isValidate(req, next, schema);
 }

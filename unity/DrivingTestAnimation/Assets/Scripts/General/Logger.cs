@@ -5,7 +5,6 @@ using UnityEngine;
 public class Logger : MonoBehaviour
 {
     string[] listCurrentRules;
-    bool loggerIsOn = false;
 
     // Dictionary<rule, mistakes number>
     public Dictionary<string, RuleObj> rulesMistakes;
@@ -30,7 +29,6 @@ public class Logger : MonoBehaviour
     void InitLogger(bool loadIsDone)
     {
         if(GameManager.Instance.RulesList != null) {
-            this.loggerIsOn = true;
             this.listCurrentRules = GameManager.Instance.RulesList;
             int numQuestions = GameManager.Instance.QuesionsPerRule;
             this.rulesMistakes = new Dictionary<string, RuleObj>();

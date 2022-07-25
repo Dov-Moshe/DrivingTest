@@ -16,7 +16,7 @@ public class RouteMessage : MonoBehaviour
     void Start()
     {
         Route.OnPointPassed += UpdateNumLocations;
-        this.numOfLocations = Route.Instance.gameObject.transform.childCount; 
+        this.numOfLocations = Route.Instance.numOfPoints;
         this.template = textField.text;
         textField.text = String.Format(this.template, this.numOfLocations.ToString());
     }

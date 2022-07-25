@@ -15,7 +15,6 @@ public class UTurnDetectObject : MonoBehaviour
     private float exitEndAngle;
 
     private bool isEnter = false;
-    private bool isExist = false;
 
     private AdvanceCarController car;
 

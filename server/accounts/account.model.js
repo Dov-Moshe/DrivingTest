@@ -6,10 +6,9 @@ const schema = new Schema({
     passwordHash: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    acceptTerms: Boolean,
-    score: {type: Number, unique: false},
-    scoreDescription: {type: Array, unique: false},
-    rules: {type: Array, unique: false},
+    score: { type: Number, unique: false },
+    scoreDescription: { type: Array, unique: false },
+    rules: { type: Array, unique: false },
     verificationToken: String,
     verified: Date,
     resetToken: {

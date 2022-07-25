@@ -13,6 +13,7 @@ public class Route : MonoBehaviour
 
     public static event Action<int, bool> OnPointPassed;
     public static event Action<GameObject> CurrentPoint;
+    public int numOfPoints = 0;
 
     private static Route _instance;
     public static Route Instance { get { return _instance; } }
@@ -25,6 +26,7 @@ public class Route : MonoBehaviour
         } else {
             _instance = this;
         }
+        numOfPoints = points.Count;
     }
 
     // Start is called before the first frame update
