@@ -12,7 +12,6 @@ function Register({ history }) {
         email: '',
         password: '',
         confirmPassword: '',
-        acceptTerms: true,
         score: 0,
         rules: []
     }
