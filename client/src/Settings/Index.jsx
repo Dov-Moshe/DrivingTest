@@ -36,7 +36,7 @@ function clickSaveRules(arrayOfToogles, email) {
     accountService.updateRules(email, arrayOfToogles)
         // on finish
         .then(() => {
-            alertService.success('saved successfully', { keepAfterRouteChange: true });
+            alertService.success('השינויים נשמרו בהצלחה', { keepAfterRouteChange: true });
         })
         // error handler
         .catch(error => {

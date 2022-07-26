@@ -27,7 +27,7 @@ paths:
                       example: 1
                 message:
                   type: string
-                  example: "Scores get successfully"
+                  example: "high score retrieved successfully"
   /accounts/update-rules:
     post:
       summary: rules2
@@ -269,40 +269,6 @@ paths:
                   jwtToken:
                     type: string
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWIxMmUxOTdlMDZhNzZjY2RlZmMxMjEiLCJpZCI6IjVlYjEyZTE5N2UwNmE3NmNjZGVmYzEyMSIsImlhdCI6MTU4ODc1ODE1N30.xR9H0STbFOpSkuGA9jHNZOJ6eS7umHHqKRhI807YT1Y"
-  /accounts/revoke-token:
-    post:
-      summary: Revoke a refresh token
-      description: Admin users can revoke the tokens of any account, regular users can only revoke their own tokens.
-      operationId: revokeToken
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: cookie
-          name: refreshToken
-          description: The refresh token can be sent in a cookie or the post body, if both are sent the token in the body is used.
-          schema:
-            type: string
-            example: 51872eca5efedcf424db4cf5afd16a9d00ad25b743a034c9c221afc85d18dcd5e4ad6e3f08607550
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  example: "51872eca5efedcf424db4cf5afd16a9d00ad25b743a034c9c221afc85d18dcd5e4ad6e3f08607550"
-      responses:
-        "200":
-          description: The refresh token was successfully revoked
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Token revoked"
   /accounts/register:
     post:
       summary: Register a new user account and send a verification email
