@@ -23,7 +23,7 @@ function App() {
         return subscription2.unsubscribe;
     }, []);
     return (
-        <div className={'app-container' + (user && ' bg-light')}>
+        <div className={'app-container'}>
             <Alert />
             <Switch>
                 <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />

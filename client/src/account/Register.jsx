@@ -52,29 +52,29 @@ function Register({ history }) {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ errors, touched, isSubmitting }) => (
                 <Form>
-                    <h3 className="card-header text-right">הרשמה</h3>
+                    <h3 className="card-header text-center">הרשמה</h3>
                     <div className="card-body">
-                        <div className="form-row">
-                            <div className="form-group col-7 text-right">
+                        <div className="form-group text-right m-3">
+                            <div className="form-group col-sm-6 text-right">
                                 <label>שם פרטי</label>
                                 <Field name="firstName" type="text"
                                     className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                             </div>
-                            <div className="form-group col-7 text-right">
+                            <div className="form-group col-sm-6 text-right">
                                 <label>שם משפחה</label>
                                 <Field name="lastName" type="text" className={'form-control' +
                                     (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                             </div>
                         </div>
-                        <div className="form-group text-right">
+                        <div className="form-group text-right m-3">
                             <label>מייל</label>
                             <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ?
                                 ' is-invalid' : '')} />
                             <ErrorMessage name="email" component="div" className="invalid-feedback" />
                         </div>
-                        <div className="form-row">
+                        <div className="form-row text-right m-3">
                             <div className="form-group col text-right">
                                 <label>סיסמה</label>
                                 <Field name="password" type="password" className={'form-control' +
@@ -89,7 +89,7 @@ function Register({ history }) {
                             </div>
                         </div>
 
-                        <div className="form-group text-right">
+                        <div className="form-group text-right m-3">
                             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                 {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 הרשמה

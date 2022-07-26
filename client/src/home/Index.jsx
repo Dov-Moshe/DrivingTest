@@ -50,14 +50,13 @@ const addOrRemove = (array, item) => {
 let arrayOfToogles = [];
 function Home() {
     const style = {
-        backgroundColor: "#F8F8F8",
         borderTop: "1px solid #E7E7E7",
         textAlign: "center",
         position: "fixed",
         paddingBottom: "30px",
         left: "0",
         bottom: "0",
-        height: "50px",
+        height: "100%",
         width: "100%"
     };
     const [page, currentPage] = useState('homePage');
@@ -69,61 +68,67 @@ function Home() {
     const [isHighScoress, setIsHighScores] = useState(false);
 
     return (
-        <div className="p-7 text-right" >
-            {page === 'homePage' && (
-                <div className="container">
-                    {!isSettings && !isHighScoress && <div class="card" style={{ height: "18erm;" }}><div class="card-body">
-                        <h3 className="card-title"> שלום {user.firstName}!</h3>
+        <div className='container min-vw-100' style={{"background-image": "url('../src/static_src/imgstreet2.png')", "background-size": "cover"}}>
+            <div className='row'>
+                {page === 'homePage' && (
+                    <div className="container min-vh-100 justify-content-center pt-5 col-sm-7" >
+                        {!isSettings && !isHighScoress && <div style={{ height: "18erm;" }}><div class="card-body">
 
-                        <h4 className="card-text">ברוך הבא למשחק לימוד נהיגה</h4>
-
-                        <p class="card-text">המשחק נועד ללימוד ותרגול כללי נהיגה, בו תוכלו לעקוב אחר ההתקדמות ולמרגל נושאים לפי רצונכם</p>
-
-                        <div className="form-row">
-                            <div className="form-group col">
-                                <button onClick={() => { currentPage('gamePage'); }} class="btn btn-primary">התחל משחק</button>
-                                <button style={{ margin: "20px" }} onClick={() => setSettings(!isSettings)} class="btn btn-primary">הגדרות</button>
-                                <button onClick={() => setIsHighScores(!isHighScoress)} class="btn btn-primary">היסטוריית ניקוד</button>
-                                <button style={{ margin: "20px" }} class="btn btn-primary" onClick={accountService.logout} >התנתק </button>
+                            <div className='text-center'>
+                                <p className="text-body font-sans-regular text-dark" style={{ fontSize: "24px" }}> שלום {user.firstName}!</p>
+                                <p className="text-body font-sans-bold title-1 text-dark">ברוך הבא למשחק לימוד נהיגה</p>
+                                <p class="text-body font-sans-regular text-dark" style={{ fontSize: "18px" }}>המשחק נועד ללימוד ותרגול כללי נהיגה, בו תוכלו לעקוב אחר ההתקדמות ולמרגל נושאים לפי רצונכם</p>
                             </div>
+                            
+                            <div className="form-row text-center">
+                                <div className="form-group col">
+                                    <button onClick={() => { currentPage('gamePage'); }} class="btn btn-success">התחל משחק</button>
+                                    <button style={{ margin: "20px" }} onClick={() => setSettings(!isSettings)} class="btn btn-primary">הגדרות</button>
+                                    <button onClick={() => setIsHighScores(!isHighScoress)} class="btn btn-primary">היסטוריית ניקוד</button>
+                                    <button style={{ margin: "20px" }} class="btn btn-secondary" onClick={accountService.logout} >התנתק </button>
+                                </div>
+                            </div>
+
                         </div>
+                        </div>
+                        }
+                        {isSettings && <Settings />}
+                        {isHighScoress && <HighScores />}
+                        {!isHighScoress && !isSettings && scoresV && scoresV.length > 0 && <div className='card shadow-lg p-3 h-50 d'> <h5 class="card-header">טבלת הציונים המובילים</h5><table class="table table-striped"> <thead> <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">משתמש</th>
+                            <th scope="col">ניקוד</th>
+                        </tr>
+                        </thead> {scoresV.map((item, i) => <tr> <th scope="row">{i + 1}</th><td>{item.email}</td><td>{item && item.score}</td></tr>)}</table></div>}
 
                     </div>
+                )}
+                {page === 'gamePage' &&
+                    <div className='container min-vh-100 justify-content-center align-items-center'>
+                        <UnityComponent />
                     </div>
+                }
+            </div>
+
+            <div className='container text-center footer navbar-fixed-bottom '>
+                    {(isSettings || isHighScoress || page === 'gamePage') &&
+                        <div className='text-center'>
+                            <button className="btn btn-primary" style={{ margin: "20px" }} onClick={accountService.logout} >התנתק </button>
+                            <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false);
+                            if(page === 'gamePage'){
+                                    QuitUnity();
+                                    setTimeout(function() {
+                                        currentPage('homePage')
+                                    }, (2000));
+                                } else{
+                                    currentPage('homePage')
+                                }}}>
+                                חזרה לדף הראשי
+                            </button>
+                        </div>
                     }
-                    {isSettings && <Settings />}
-                    {isHighScoress && <HighScores />}
-                    {!isHighScoress && !isSettings && scoresV && scoresV.length > 0 && <div> <h5 class="card-header">טבלת הציונים המובילים</h5><table class="table table-striped" id="customers"> <thead> <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">משתמש</th>
-                        <th scope="col">ניקוד</th>
-                    </tr>
-                    </thead> {scoresV.map((item, i) => <tr> <th scope="row">{i + 1}</th><td>{item.email}</td><td>{item && item.score}</td></tr>)}</table></div>}
-
-                </div>
-            )}
-            {page === 'gamePage' &&
-                <div>
-                    <UnityComponent />
-                </div>
-            }
-
-            {(isSettings || isHighScoress || page === 'gamePage') &&
-                <footer style={style}>
-                    <button className="btn btn-primary" style={{ margin: "20px" }} onClick={accountService.logout} >התנתק </button>
-                    <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false);
-                    if(page === 'gamePage'){
-                            QuitUnity();
-                            setTimeout(function() {
-                                currentPage('homePage')
-                            }, (2000));
-                        } else{
-                            currentPage('homePage')
-                        }}}>
-                        חזרה לדף הראשי
-                    </button>
-
-                </footer>}
+            </div>
+            
 
         </div>
     );

@@ -37,19 +37,19 @@ function Login({ history, location }) {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ errors, touched, isSubmitting }) => (
                 <Form>
-                    <h3 className="card-heade text-right">כניסה</h3>
+                    <h3 className="card-header text-center">כניסה</h3>
                     <div className="card-body">
-                        <div className="form-group text-right">
+                        <div className="form-group text-right m-3">
                             <label>מייל</label>
                             <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                             <ErrorMessage name="email" component="div" className="invalid-feedback" />
                         </div>
-                        <div className="form-group text-right">
+                        <div className="form-group text-right m-3">
                             <label>סיסמה</label>
                             <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                             <ErrorMessage name="password" component="div" className="invalid-feedback" />
                         </div>
-                        <div className="form-row text-right">
+                        <div className="form-row text-right m-3">
                             <div className="form-group col">
                                 <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                     {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}

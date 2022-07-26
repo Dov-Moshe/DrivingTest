@@ -18,10 +18,10 @@ function Account({ history, match }) {
     }, []);
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-sm-8 offset-sm-2 mt-5">
-                    <div className="card m-3">
+        <div className="container backg min-vw-100" style={{"background-image": "url('../src/static_src/imgstreet2.png')", "background-size": "cover"}}>
+            <div className="row d-flex min-vh-100 justify-content-center align-items-center">
+                <div className="col-sm-6 mt-8">
+                    <div className="card shadow-lg">
                         <Switch>
                             <Route path={`${path}/login`} component={Login} />
                             <Route path={`${path}/register`} component={Register} />

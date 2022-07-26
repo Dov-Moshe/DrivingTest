@@ -70,13 +70,12 @@ function UnityComponent() {
 
     return (
         <div align="center">
-            <Unity unityProvider={unityProvider}
+            <Unity className='shadow-lg' unityProvider={unityProvider}
                 style={{
-                    width: "50%",
-                    height:"500px",
+                    width: "60%",
+                    height:"530px",
                     justifySelf: "center",
                     alignSelf: "center",
-                    border: "2px solid black",
                     margin: "50px",
                     background: "grey"
                 }}
