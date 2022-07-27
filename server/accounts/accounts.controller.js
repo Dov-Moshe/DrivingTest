@@ -38,7 +38,7 @@ function updateRulesSchema(req, res, next) {
 }
 
 function throwError(err, req, res, next) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: err });
 }
 
 function updateHighscore(req, res, next) {
