@@ -11,17 +11,12 @@ const schema = new Schema({
     rules: { type: Array, unique: false },
     verificationToken: String,
     verified: Date,
-    resetToken: {
-        token: String,
-        expires: Date
-    },
-    passwordReset: Date,
     created: { type: Date, default: Date.now },
     updated: Date,
 });
 
 schema.virtual('isVerified').get(function () {
-    return !!(this.verified || this.passwordReset);
+    return !!(this.verified);
 });
 
 schema.set('toJSON', {

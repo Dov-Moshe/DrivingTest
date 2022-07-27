@@ -1,5 +1,7 @@
 ﻿const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const config = require('../config.json');
 const Joi = require('joi');
 const accountService = require('./account.service');
 
@@ -15,13 +17,21 @@ function isValidate(req, next, schema) {
 }
 
 function updateRules(req, res, next) {
-
     accountService.updateRules(req.body)
         .then(() => res.json({ message: 'update rules successful' }))
         .catch(next);
 }
-
+function isTokenValid(req, res, next) {
+    try {
+        jwt.verify(req.cookies.refreshToken, config.secret);
+        next();
+    } catch (e) {
+        return res.status(403).json({ message: 'אינך מחובר למערכת, אנא התחבר מחדש' });
+    }
+}
 function updateRulesSchema(req, res, next) {
+
+
     const schema = Joi.object({
         email: Joi.string().email().required(),
         rules: Joi.array().items(Joi.string())
@@ -79,8 +89,8 @@ function authenticate(req, res, next) {
     const { email, password } = req.body;
     const ipAddress = req.ip;
     accountService.authenticate({ email, password, ipAddress })
-        .then(({ refreshToken, ...account }) => {
-            setTokenCookie(res, refreshToken);
+        .then(({ jwtToken, ...account }) => {
+            setTokenCookie(res, jwtToken);
             res.json(account);
         })
         .catch(next);
@@ -146,10 +156,10 @@ function setTokenCookie(res, token) {
 router.post('/authenticate', authenticateSchema, authenticate, throwError);
 router.post('/register', registerSchema, register, throwError);
 router.post('/verify-email', verifyEmailSchema, verifyEmail, throwError);
-router.post('/update-highscore', updateHighscoreSchema, updateHighscore, throwError);
-router.post('/get-rules', getRulesSchema, getRules, throwError);
-router.post('/update-rules', updateRulesSchema, updateRules, throwError);
-router.get('/get-all-scores', getHighscores, throwError);
-router.post('/get-user-by-email', getAccountByEmail, throwError);
+router.post('/update-highscore', isTokenValid, updateHighscoreSchema, updateHighscore, throwError);
+router.post('/get-rules', isTokenValid, getRulesSchema, getRules, throwError);
+router.post('/update-rules', isTokenValid, updateRulesSchema, updateRules, throwError);
+router.get('/get-all-scores', isTokenValid, getHighscores, throwError);
+router.post('/get-user-by-email', isTokenValid, getAccountByEmail, throwError);
 
 module.exports = router;

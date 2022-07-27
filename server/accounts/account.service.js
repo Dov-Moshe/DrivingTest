@@ -6,7 +6,6 @@ const sendEmail = require('../_helpers/send-email');
 const db = require('../_helpers/db');
 
 module.exports = {
-    isAuthorized,
     authenticate,
     register,
     verifyEmail,
@@ -21,11 +20,6 @@ module.exports = {
     getAllcores,
 };
 
-async function isAuthorized(req) {
-    const account = await db.Account.findById(req.user.id);
-    const refreshTokens = await db.RefreshToken.find({ account: account.id });
-    return !!refreshTokens.find(x => x.token === token);
-}
 async function updateRules(params) {
     const account = await db.Account.findOne({ email: params.email });
     const newRules = params.rules;
@@ -59,19 +53,11 @@ async function authenticate({ email, password, ipAddress }) {
     if (!account || !account.isVerified || !bcrypt.compareSync(password, account.passwordHash)) {
         throw 'Email or password is incorrect';
     }
-
     // authentication successful so generate jwt and refresh tokens
     const jwtToken = generateJwtToken(account);
-    const refreshToken = generateRefreshToken(account, ipAddress);
-
-    // save refresh token
-    await refreshToken.save();
-
-    // return basic details and tokens
     return {
         ...basicDetails(account),
         jwtToken,
-        refreshToken: refreshToken.token
     };
 }
 
@@ -102,28 +88,8 @@ async function verifyEmail({ token }) {
     await account.save();
 }
 
-async function forgotPassword({ email }, origin) {
-    const account = await db.Account.findOne({ email });
-
-    // always return ok response to prevent email enumeration
-    if (!account) return;
-
-    // create reset token that expires after 24 hours
-    account.resetToken = {
-        token: randomTokenString(),
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
-    };
-    await account.save();
-
-    // send email
-    await sendPasswordResetEmail(account, origin);
-}
-
-
-//here my new function
 async function getFiveHighScores() {
     const scores = db.Account.find().sort({ score: -1 }).limit(5);
-    //const email = getEmailByScore(score);
     return { scores, item };
 }
 
@@ -188,16 +154,6 @@ function hash(password) {
 function generateJwtToken(account) {
     // create a jwt token containing the account id that expires in 15 minutes
     return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' });
-}
-
-function generateRefreshToken(account, ipAddress) {
-    // create a refresh token that expires in 7 days
-    return new db.RefreshToken({
-        account: account.id,
-        token: randomTokenString(),
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        createdByIp: ipAddress
-    });
 }
 
 function randomTokenString() {

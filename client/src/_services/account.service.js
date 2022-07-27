@@ -10,16 +10,11 @@ const baseUrl = `${config.apiUrl}/accounts`;
 export const accountService = {
     login,
     logout,
-    refreshToken,
     register,
     verifyEmail,
-    forgotPassword,
-    validateResetToken,
-    resetPassword,
     getAll,
     getById,
     create,
-    update,
     updateRules,
     getScores,
     getDetails,
@@ -41,7 +36,6 @@ function login(email, password) {
     return apiCalls.post(`${baseUrl}/authenticate`, { email, password })
         .then(user => {
             userSubject.next(user);
-            startRefreshTokenTimer();
             return user;
         });
 }
@@ -59,33 +53,12 @@ function logout() {
     location.replace('/account/login');
 }
 
-function refreshToken() {
-    return apiCalls.post(`${baseUrl}/refresh-token`, {})
-        .then(user => {
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
-}
-
 function register(params) {
     return apiCalls.post(`${baseUrl}/register`, params);
 }
 
 function verifyEmail(token) {
     return apiCalls.post(`${baseUrl}/verify-email`, { token });
-}
-
-function forgotPassword(email) {
-    return apiCalls.post(`${baseUrl}/forgot-password`, { email });
-}
-
-function validateResetToken(token) {
-    return apiCalls.post(`${baseUrl}/validate-reset-token`, { token });
-}
-
-function resetPassword({ token, password, confirmPassword }) {
-    return apiCalls.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
 }
 
 function getAll() {
@@ -102,7 +75,6 @@ function create(params) {
 
 function getAccountByEmail() {
     return apiCalls.post(`${baseUrl}/get-user-by-email`, { email: `${accountService.userValue.email}` }).then(user => {
-
         userSubject.next(user);
         return user;
     });
@@ -114,28 +86,4 @@ function getScores() {
         scoreSubject.next(scores);
         return scores;
     });
-}
-
-function update(id, params) {
-    return apiCalls.put(`${baseUrl}/${id}`, params)
-        .then(user => {
-            // update stored user if the logged in user updated their own record
-            if (user.id === userSubject.value.id) {
-                // publish updated user to subscribers
-                user = { ...userSubject.value, ...user };
-                userSubject.next(user);
-            }
-            return user;
-        });
-}
-
-let refreshTokenTimeout;
-
-function startRefreshTokenTimer() {
-    // parse json object from base64 encoded jwt token
-    const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
-    // set a timeout to refresh the token a minute before it expires
-    const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    refreshTokenTimeout = setTimeout(refreshToken, timeout);
 }

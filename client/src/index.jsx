@@ -9,14 +9,11 @@ const history = createBrowserHistory();
 import './styles.less';
 
 
-// attempt silent token refresh before startup
-accountService.refreshToken().finally(startApp);
-
-function startApp() { 
+(function startApp() {
     render(
         <Router history={history}>
             <App />
         </Router>,
         document.getElementById('app')
     );
-}
+})();
