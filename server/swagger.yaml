@@ -123,8 +123,8 @@ paths:
                     example: "Rules get successfully"
   /accounts/update-highscore:
     post:
-      summary: lala
-      description: lala
+      summary: update the current score if it's greater than the previus highscore 
+      description: updae high score
       operationId: updateHighscore
       requestBody:
         required: true
