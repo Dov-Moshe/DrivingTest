@@ -94,7 +94,7 @@ function Home() {
                         }
                         {isSettings && <Settings />}
                         {isHighScoress && <HighScores />}
-                        {!isHighScoress && !isSettings && scoresV && scoresV.length > 0 && <div className='card shadow-lg p-3 h-50 d'> <h5 class="card-header">טבלת הציונים המובילים</h5><table class="table table-striped"> <thead> <tr>
+                        {!isHighScoress && !isSettings && scoresV && scoresV.length > 0 && <div className='card shadow-lg p-3 h-50'> <h5 class="card-header">טבלת הציונים המובילים</h5><table class="table table-striped"> <thead> <tr>
                             <th scope="col">#</th>
                             <th scope="col">משתמש</th>
                             <th scope="col">ניקוד</th>
@@ -110,10 +110,10 @@ function Home() {
                 }
             </div>
 
-            <div className='container text-center footer navbar-fixed-bottom '>
+            <div className='container text-center footer'>
                     {(isSettings || isHighScoress || page === 'gamePage') &&
-                        <div className='text-center'>
-                            <button className="btn btn-primary" style={{ margin: "20px" }} onClick={accountService.logout} >התנתק </button>
+                        <div className='min-vw-100'>
+                            <button className="btn btn-secondary" style={{ margin: "20px" }} onClick={accountService.logout} >התנתק </button>
                             <button className="btn btn-primary" onClick={() => { setSettings(false); setIsHighScores(false);
                             if(page === 'gamePage'){
                                     QuitUnity();

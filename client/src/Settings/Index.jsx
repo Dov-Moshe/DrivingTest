@@ -113,61 +113,74 @@ function Settings() {
 
     return (
         <div className="container">
-            <h3>הגדרות</h3>
-            <h6 >בחר את האלמנטים בהם תרצה להתאמן, בסיום שמור את השינויים.</h6>  <button className="btn btn-primary" onClick={() => clickSaveRules(arrayOfToogles, user.email)}>
-                שמור שינויים
-            </button>
-            <table class="table" >
-                <div></div>
-                <tr><th>רמזור</th><td> <ToggleButton
-                    value={traffic_light}
-                    onToggle={onToggleHandlerTraffic_light}
-                /></td></tr>
-                <div></div>
-                <tr><th>סימן עצור</th><td> <ToggleButton
-                    value={stop_sign}
-                    onToggle={onToggleHandlerStop_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>סימן השתלבות</th><td> <ToggleButton
-                    value={yield_sign}
-                    onToggle={onToggleHandlerYield_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>סימן אין כניסה</th><td> <ToggleButton
-                    value={no_enter_sign}
-                    onToggle={onToggleHandlerNo_enter_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>זכות קדימה בכיכר</th><td><ToggleButton
-                    value={square_sign}
-                    onToggle={onToggleHandlerSquare_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>מהירות נסיעה</th><td><ToggleButton
-                    value={speed_limit_sign}
-                    onToggle={onToggleHandlerspeed_limit_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>פניית פרסה</th><td><ToggleButton
-                    value={no_turn_back_sign}
-                    onToggle={onToggleHandlerno_turn_back_sign}
-                /></td></tr>
-                <div></div>
-                <tr><th>איתות</th><td> <ToggleButton
-                    value={blinker}
-                    onToggle={onToggleHandlerBlinker}
-                /></td></tr>
-                <div></div>
-                <tr><th>קו הפרדה רצוף</th><td><ToggleButton
-                    value={continuous_line}
-                    onToggle={onToggleHandlerContinuous_line}
-                /></td></tr>
-                <div></div>
-                <tr><th>null</th><td><ToggleButton
-                /></td></tr>
-                <div></div>
-            </table>
+            <h2 className='text-center font-sans-regular title-2 text-secondary pb-3'>הגדרות</h2>
+            <h2 className='text-center font-sans-regular title-3 text-secondary pb-3'>בחר את האלמנטים בהם תרצה להתאמן, בסיום שמור את השינויים.</h2>  
+            <div>
+                <table class="table" style={{borderCollapse: "collapse"}}>
+                    <div></div>
+                    <tr><th>רמזור</th><td> <ToggleButton
+                        value={traffic_light}
+                        onToggle={onToggleHandlerTraffic_light}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>סימן עצור</th><td> <ToggleButton
+                        value={stop_sign}
+                        onToggle={onToggleHandlerStop_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>סימן השתלבות</th><td> <ToggleButton
+                        value={yield_sign}
+                        onToggle={onToggleHandlerYield_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>סימן אין כניסה</th><td> <ToggleButton
+                        value={no_enter_sign}
+                        onToggle={onToggleHandlerNo_enter_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>זכות קדימה בכיכר</th><td><ToggleButton
+                        value={square_sign}
+                        onToggle={onToggleHandlerSquare_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>מהירות נסיעה</th><td><ToggleButton
+                        value={speed_limit_sign}
+                        onToggle={onToggleHandlerspeed_limit_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>פניית פרסה</th><td><ToggleButton
+                        value={no_turn_back_sign}
+                        onToggle={onToggleHandlerno_turn_back_sign}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>איתות</th><td > <ToggleButton
+                        value={blinker}
+                        onToggle={onToggleHandlerBlinker}
+                    />
+                    </td></tr>
+                    <div></div>
+                    <tr><th>קו הפרדה רצוף</th><td ><ToggleButton
+                        value={continuous_line}
+                        onToggle={onToggleHandlerContinuous_line}
+                    />
+                    </td></tr>
+                </table>
+                
+                <div className='text-center'>
+                    <button className="btn btn-primary w-25" onClick={() => clickSaveRules(arrayOfToogles, user.email)}>
+                    שמור שינויים
+                    </button>
+                </div>
+                
+
+            </div>
 
         </div>
     );

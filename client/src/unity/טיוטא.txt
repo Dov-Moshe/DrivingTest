@@ -1,3 +1,0 @@
-   {scoresV && scoresV.length>0 && <div> <table> {scoresV.map((item, i )=> <tr>
-              <td>{item.score}</td>
-          <td>{item && item.scoreDescription}</td></tr>)}</table></div>}

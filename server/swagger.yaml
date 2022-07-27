@@ -142,6 +142,9 @@ paths:
                 scoreDescription:
                   type: string
                   example: 'you did great!'
+                testDate:
+                      type: string
+                      example: "2022-05-05"
               required:
                 - email
                 - score

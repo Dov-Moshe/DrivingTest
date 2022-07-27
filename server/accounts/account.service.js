@@ -38,7 +38,8 @@ async function updateHighscore(params) {
     const newScore = params.score;
     const scoreDescription = params.scoreDescription;
     const prevScore = account.score;
-    account.scoreDescription = [...account.scoreDescription, { 'score': params.score, 'scoreDescription': params.scoreDescription }];// && account.scoreHistory.push({newScore, scoreDescription});
+    const testDate = new Date().toISOString().slice(0, 10);
+    account.scoreDescription = [...account.scoreDescription, { 'score': params.score, 'scoreDescription': params.scoreDescription, 'testDate': testDate  }];// && account.scoreHistory.push({newScore, scoreDescription});
     if (newScore > prevScore) {
         account.score = newScore;
     }

@@ -11,22 +11,26 @@ function HighScores() {
     <div className="container w-auto mb-4" >
       <h2 className='text-center font-sans-regular title-1 text-secondary pb-3'>טבלת היסטוריית הניקוד שלך:</h2>
       <div className='card shadow-lg p-3'>
-        {scoresV && scoresV.length > 0 ? <div> <div style={{ overflowY: 'scroll', height: '500px' }}>
-          <table className="table table-striped">
-            <thead  style={{ position: 'sticky', top: 0 }}>
-              <tr className='card-header'>
-                <th scope="col">#</th>
-                <th scope="col">ציון</th>
-                <th scope="col">תיאור ציון</th>
+        {scoresV && scoresV.length > 0 ? <div className='row'><div><div>
+          <table className="table table-hover table-fixed">
+            <thead>
+              <tr>
+                <th scope="col" className='col-xs-2'>#</th>
+                <th scope="col" className='col-xs-8'>תאריך</th>
+                <th scope="col" className='col-xs-2'>ציון</th>
+                <th scope="col" className='col-xs-8'>תיאור ציון</th>
               </tr>
-            </thead > {scoresV.map((item, i) => 
-            <tr> 
-              <th scope="row">{i + 1}</th>
-              <td>{item.score}</td>
-              <td>{item && item.scoreDescription}</td>
-            </tr>)}
+            </thead > 
+            <tbody>{scoresV.map((item, i) => 
+              <tr> 
+                <th scope='row' className='col-xs-2'>{i + 1}</th>
+                <td className='col-xs-8'>{item.testDate}</td>
+                <td className='col-xs-2'>{item.score}</td>
+                <td className='col-xs-8'>{item && item.scoreDescription}</td>
+              </tr>)}
+            </tbody>
           </table >
-        </div > </div > : <h2 className="card-header" style={{ margin: "50px" }}>אין ציונים להצגה</h2>
+        </div></div></div> : <h2 className="card-header" style={{ margin: "50px" }}>אין ציונים להצגה</h2>
         }
       </div>
 
