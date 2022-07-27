@@ -33,7 +33,7 @@ async function updateHighscore(params) {
     const scoreDescription = params.scoreDescription;
     const prevScore = account.score;
     const testDate = new Date().toISOString().slice(0, 10);
-    account.scoreDescription = [...account.scoreDescription, { 'score': params.score, 'scoreDescription': params.scoreDescription, 'testDate': testDate  }];// && account.scoreHistory.push({newScore, scoreDescription});
+    account.scoreDescription = [...account.scoreDescription, { 'score': params.score, 'scoreDescription': params.scoreDescription, 'testDate': testDate }];// && account.scoreHistory.push({newScore, scoreDescription});
     if (newScore > prevScore) {
         account.score = newScore;
     }
@@ -152,8 +152,8 @@ function hash(password) {
 }
 
 function generateJwtToken(account) {
-    // create a jwt token containing the account id that expires in 15 minutes
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' });
+    // create a jwt token containing the account id that expires in 72h minutes
+    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '72h' });
 }
 
 function randomTokenString() {

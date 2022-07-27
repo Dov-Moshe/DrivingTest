@@ -30,17 +30,17 @@ function isTokenValid(req, res, next) {
     }
 }
 function updateRulesSchema(req, res, next) {
-
-
     const schema = Joi.object({
         email: Joi.string().email().required(),
         rules: Joi.array().items(Joi.string())
     });
     isValidate(req, next, schema);
 }
+
 function throwError(err, req, res, next) {
     return res.status(500).json({ message: err.message });
 }
+
 function updateHighscore(req, res, next) {
     accountService.updateHighscore(req.body)
         .then(() => res.json({ message: 'Highscore updated successfully' }))
@@ -62,6 +62,7 @@ function getRules(req, res, next) {
         .then(account => res.json({ rules: account.rules, email: account.email }))
         .catch(next);
 }
+
 function getAccountByEmail(req, res, next) {
     const { email } = req.body;
     accountService.getAccountByEmail(email)
@@ -85,7 +86,6 @@ function authenticateSchema(req, res, next) {
 }
 
 function authenticate(req, res, next) {
-    //  accountService.isAuthorized(req).then((isAuth) => {
     const { email, password } = req.body;
     const ipAddress = req.ip;
     accountService.authenticate({ email, password, ipAddress })
@@ -94,7 +94,6 @@ function authenticate(req, res, next) {
             res.json(account);
         })
         .catch(next);
-    //} ).catch(next);
 
 }
 
@@ -159,7 +158,7 @@ router.post('/verify-email', verifyEmailSchema, verifyEmail, throwError);
 router.post('/update-highscore', isTokenValid, updateHighscoreSchema, updateHighscore, throwError);
 router.post('/get-rules', isTokenValid, getRulesSchema, getRules, throwError);
 router.post('/update-rules', isTokenValid, updateRulesSchema, updateRules, throwError);
-router.get('/get-all-scores', isTokenValid, getHighscores, throwError);
+router.get('/get-all-scores', getHighscores, throwError);
 router.post('/get-user-by-email', isTokenValid, getAccountByEmail, throwError);
 
 module.exports = router;
