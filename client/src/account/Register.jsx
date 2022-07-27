@@ -32,7 +32,7 @@ function Register({ history }) {
             .required('Confirm Password is required'),
     });
 
-    // ui-> service (client)-> fetch-wrapper -> fetch ->server side-> response -> 
+    // ui-> service (client) -> fetch(api call) ->server side-> response -> 
     function onSubmit(fields, { setStatus, setSubmitting }) {
         setStatus();
         // call async function syncronously

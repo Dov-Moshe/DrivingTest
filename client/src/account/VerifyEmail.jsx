@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import { accountService, alertService } from '@/_services';
 
 function VerifyEmail({ history }) {
+    // during processing / finished.
     const EmailStatus = {
         Verifying: 'Verifying',
         Failed: 'Failed'
@@ -13,9 +14,9 @@ function VerifyEmail({ history }) {
     const [emailStatus, setEmailStatus] = useState(EmailStatus.Verifying);
 
     useEffect(() => {
+        //get token from url
         const { token } = queryString.parse(location.search);
 
-        // remove token from url to prevent http referer leakage
         history.replace(location.pathname);
 
         accountService.verifyEmail(token)
@@ -33,13 +34,13 @@ function VerifyEmail({ history }) {
             case EmailStatus.Verifying:
                 return <div>Verifying...</div>;
             case EmailStatus.Failed:
-                return <div>Verification failed, you can also verify your account using the <Link to="forgot-password">forgot password</Link> page.</div>;
+                return <div>שגיאה באימות המידע, אנא בדוק את הפרטים</div>;
         }
     }
 
     return (
         <div>
-            <h3 className="card-header">Verify Email</h3>
+            <h3 className="card-header">אימות משתמש</h3>
             <div className="card-body">{getBody()}</div>
         </div>
     )

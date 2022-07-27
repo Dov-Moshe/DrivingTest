@@ -40,7 +40,6 @@ async function updateHighscore(params) {
     await account.save();
 }
 
-// todo check if the function return json format
 async function getRules(params) {
     const account = await db.Account.findOne({ email: params.email });
     const rules = account.rules;
@@ -78,11 +77,12 @@ async function register(params, origin) {
     await sendVerificationEmail(account, origin);
 }
 
+
 async function verifyEmail({ token }) {
+    //db records with the input token
     const account = await db.Account.findOne({ verificationToken: token });
-
+    //not exist
     if (!account) throw 'Verification failed';
-
     account.verified = Date.now();
     account.verificationToken = undefined;
     await account.save();
@@ -110,7 +110,7 @@ async function getByEmail(email) {
     const account = await getAccount(email);
     return basicDetails(account);
 }
-//new
+
 async function getEmailByScore(score) {
     const account = await getAccount(score);
     return basicDetails(account).email;
